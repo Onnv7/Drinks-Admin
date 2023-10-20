@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap");
+$primaryColor: #6c3428;
+$secondaryColor: #f8ede3;
+$brownMain: #765827;
+$redMainColor: #f31c1c;
+$blueMainColor: #44d3f0;
+$greenMainColor: #41ee55;
+
+$largeFz: 24px;
+$mediumFz: 20px;
+$normalFz: 16px;
+$smallFz: 12px;
+$headerFz: 30px;
+
+:root {
+  --primaryColor: #{$primaryColor};
+  --secondaryColor: #{$secondaryColor};
+  --brownMain: #{$brownMain};
+  --largeFz: #{$largeFz};
+  --mediumFz: #{$mediumFz};
+  --normalFz: #{$normalFz};
+  --smallFz: #{$smallFz};
+  --headerFz: #{$headerFz};
+  --redMainColor: #{$redMainColor};
+  --blueMainColor: #{$blueMainColor};
+  --greenMainColor: #{$greenMainColor};
+}
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  font-family: "Roboto", sans-serif;
+  font-size: var(--normalFz);
+}

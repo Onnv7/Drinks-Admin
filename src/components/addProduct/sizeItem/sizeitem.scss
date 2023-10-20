@@ -1,0 +1,25 @@
+.sizeItemContainer {
+  height: fit-content;
+  width: fit-content;
+  position: relative;
+  padding: 8px 12px;
+  background-color: #86e0f7;
+  border: 1px solid #2ec5eb;
+  border-radius: 8px;
+  display: flex;
+  margin: 8px;
+  flex-direction: column;
+  .size {
+    display: inline-block;
+  }
+  .price {
+    display: inline-block;
+  }
+  .removeSizeBtn {
+    position: absolute;
+    right: -10px;
+    color: red;
+    top: -10px;
+    cursor: pointer;
+  }
+}
