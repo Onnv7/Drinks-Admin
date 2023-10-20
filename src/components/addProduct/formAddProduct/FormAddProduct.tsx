@@ -4,6 +4,7 @@ import ElevatedButton from "../../shared/elevatedButton/ElevatedButton";
 import ImageInput from "../../shared/imageInput/ImageInput";
 import TextInput from "../../shared/textInput/TextInput";
 import SizeItem from "../sizeItem/SizeItem";
+import AddSize from "../addSize/AddSize";
 
 const FormAddProduct: React.FC = () => {
   const onAddNewSize = () => {};
@@ -31,30 +32,7 @@ const FormAddProduct: React.FC = () => {
 
         <div className="productSize productField">
           <label className="productFieldTitle">Size: </label>
-          <div className="contentCol">
-            <div className="sizeList">
-              <SizeItem size="123" price={12} />
-              <SizeItem size="123" price={12} />
-            </div>
-            <div className="addSizeContainer">
-              <div className="input">
-                <TextInput
-                  height={48}
-                  width={200}
-                  placeHolderText="Product Size"
-                />
-                <TextInput
-                  height={48}
-                  width={200}
-                  placeHolderText="Product Size"
-                  type="number"
-                />
-                <div className="btnAdd">
-                  <ElevatedButton text="Add" />
-                </div>
-              </div>
-            </div>
-          </div>
+          <AddSize />
         </div>
         <SizeItem size="123" price={12} />
       </div>

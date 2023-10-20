@@ -8,26 +8,33 @@ import Product from "./pages/product/Product";
 import Category from "./pages/category/Category";
 import Employee from "./pages/employee/Employee";
 import AddProduct from "./pages/addProduct/AddProduct";
+import RequireAuth from "./components/shared/requireAuth/RequireAuth";
+import Login from "./pages/login/Login";
+import RootLayout from "./layouts/RootLayout";
 
 const App: React.FC = () => {
   return (
     <div className="app">
-      <SideBar />
-      <div className="appContainer">
-        <TopBar />
-        <Routes>
-          <Route path="/">
-            <Route index element={<Dashboard />} />
-            <Route path="product">
-              <Route index element={<Product />} />
-              <Route path="new" element={<AddProduct />} />
+      <Routes>
+        <Route path="/">
+          <Route element={<RequireAuth />}>
+            <Route element={<RootLayout />}>
+              <Route index element={<Dashboard />} />
+
+              <Route path="product">
+                <Route index element={<Product />} />
+                <Route path="new" element={<AddProduct />} />
+              </Route>
+
+              <Route path="category" element={<Category />} />
+
+              <Route path="employee" element={<Employee />} />
             </Route>
-            <Route path="category" element={<Category />} />
-            <Route path="employee" element={<Employee />} />
-            <Route path="test" element={<Outlet />} />
           </Route>
-        </Routes>
-      </div>
+        </Route>
+        <Route path="login" element={<Login />} />
+        <Route path="test" element={<Outlet />} />
+      </Routes>
     </div>
   );
 };

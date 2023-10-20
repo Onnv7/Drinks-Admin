@@ -48,34 +48,7 @@
     }
     .productSize {
       display: flex;
-      .sizeList {
-        display: flex;
-        height: fit-content;
-        justify-content: space-evenly;
-        width: fit-content;
-        background-color: #fdfdfb;
-        border: 0.2px solid rgb(207, 205, 205);
-        border-radius: 8px;
-        padding: 8px 12px;
-      }
-      .addSizeContainer {
-        // margin-left: 80px;
-        align-self: start;
-        width: fit-content;
-        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
-        border-radius: 8px;
-        padding: 8px 12px;
-        .input {
-          padding: 8px 12px;
-          display: flex;
-          > div {
-            display: inline-block;
-            margin: 12px;
-          }
-        }
-        .btnAdd {
-        }
-      }
+      
     }
   }
   .toppingTitle {

@@ -1,13 +1,9 @@
 .app {
   display: flex;
-
+  
   .link {
     text-decoration: none;
     color: inherit;
-  }
-
-  .appContainer {
-    flex: 6;
-    background-color: #fff;
+  
   }
 }

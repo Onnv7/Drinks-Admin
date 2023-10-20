@@ -1,6 +1,8 @@
 import React, { FormEvent, FormEventHandler, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import "./login.scss";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -11,20 +13,39 @@ const Login: React.FC = () => {
   };
   return (
     <div className="loginContainer">
-      <form onSubmit={onLogin}>
-        <input
-          type="text"
-          className="loginUsername"
-          onChange={(e) => setUsername(e.target.value)}
-          value={username}
-        />
-        <input
-          type="password"
-          className="loginPassword"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-        />
-      </form>
+      <div className="cardForm">
+        <div className="title">Sign in to Admin</div>
+        <form onSubmit={onLogin}>
+          <div className="loginUsername">
+            <span className="iconLogin">
+              <AccountCircleOutlinedIcon />
+            </span>
+            <input
+              type="text"
+              className="usernameInput"
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
+              placeholder="Username"
+            />
+          </div>
+          <div className="loginPassword">
+            <span className="iconLogin">
+              <LockOutlinedIcon />
+            </span>
+            <input
+              type="password"
+              className="passwordInput"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              placeholder="Password"
+            />
+          </div>
+          <div className="submitButton">
+            <input type="submit" className="loginButton" hidden />
+            <div>Login</div>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
