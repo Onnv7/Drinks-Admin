@@ -2,21 +2,14 @@ import React, { ReactNode, useState, Fragment } from "react";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { IProduct } from "../../../interfaces/product";
 import "./producttable.scss";
-import OutLineButton from "../../shared/outlineButton/OutLineButton";
+
 type Props = {
   product?: IProduct[];
 };
 
 const ProductTable: React.FC<Props> = (props) => {
   const { product = [] } = props;
-  const ActionCell = () => {
-    const [text, setText] = useState("F");
-    return (
-      <Fragment>
-        <OutLineButton text={text} />
-      </Fragment>
-    );
-  };
+
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -34,7 +27,7 @@ const ProductTable: React.FC<Props> = (props) => {
     },
     {
       field: "thumbnailUrl",
-      headerName: "thumbnailUrl",
+      headerName: "Thumbnail",
       width: 130,
       align: "center",
       headerAlign: "center",
@@ -55,9 +48,9 @@ const ProductTable: React.FC<Props> = (props) => {
       headerAlign: "center",
       renderCell: (params) => {
         return (
-          <div className="cellAction">
-            <div className="viewButton">View</div>
-            <div className="deleteButton">Delete</div>
+          <div className="cellProductAction">
+            <div className="viewProductButton">View</div>
+            <div className="deleteProductButton">Delete</div>
           </div>
         );
       },

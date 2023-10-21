@@ -40,11 +40,11 @@
       li {
         display: flex;
         align-items: center;
-        padding: 5px;
+        padding: 4px 12px;
         cursor: pointer;
         &:hover {
           background-color: #a9907e;
-          border-radius: 4%;
+          border-radius: 16px;
           color: white;
           .icon,
           span {

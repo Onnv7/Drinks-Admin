@@ -1,10 +1,10 @@
-.productTableContainer {
-  .cellProductAction {
+.categoryTableContainer {
+  .cellCategoryAction {
     display: flex;
     align-items: center;
     gap: 15px;
 
-    .viewProductButton {
+    .viewCategoryButton {
       padding: 2px 5px;
       border-radius: 5px;
       color: darkblue;
@@ -12,7 +12,7 @@
       cursor: pointer;
     }
 
-        .deleteProductButton {
+    .deleteCategoryButton {
       padding: 2px 5px;
       border-radius: 5px;
       color: crimson;
