@@ -7,7 +7,10 @@ type Props = {
   icon?: string;
   color?: string;
   backgroundColor?: string;
+  height?: number;
+  width?: number;
   onClick?: () => void;
+  borderRadius?: number;
 };
 
 const ElevatedButton: React.FC<Props> = (props) => {
@@ -22,11 +25,17 @@ const ElevatedButton: React.FC<Props> = (props) => {
     icon,
     onClick,
     backgroundColor = ColorConstants.bluePositive,
+    height,
+    width,
+    borderRadius,
   } = props;
 
   const style = {
     color: color,
     backgroundColor: backgroundColor,
+    height: `${height}px`,
+    width: `${width}px`,
+    borderRadius: `${borderRadius}px`,
   };
 
   return (

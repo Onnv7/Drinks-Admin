@@ -1,17 +1,26 @@
-import React, { ChangeEvent, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import "./imageinput.scss";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 type Props = {
-  height: number;
-  width: number;
-  onChange?: (file: File | null) => void;
+  height?: number;
+  width?: number;
+  file?: File;
+  isClearAfterUpload?: boolean;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 const ImageInput: React.FC<Props> = (props) => {
-  const { height, width, onChange } = props;
+  const {
+    height = 300,
+    width = 300,
+    onChange,
+    file,
+    isClearAfterUpload = false,
+  } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [image, setImage] = useState<string | null>(null);
+
+  const [imagePath, setImagePath] = useState<string | null>(null);
   const [fileName, setFileName] = useState("No selected file");
 
   const handleClick = (): void => {
@@ -19,17 +28,23 @@ const ImageInput: React.FC<Props> = (props) => {
   };
 
   const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target?.files?.[0];
-    file && setFileName(file.name);
-    if (file) {
-      setImage(URL.createObjectURL(file));
+    const fi = e.target?.files?.[0] ? e.target?.files?.[0] : null;
+
+    if (fi) {
       if (onChange) {
-        onChange(file);
+        onChange(e);
       }
+      if (isClearAfterUpload) {
+        onClickRemoveImage();
+        return;
+      }
+      setFileName(fi.name);
+      setImagePath(URL.createObjectURL(fi));
     }
   };
+
   const onClickRemoveImage = (): void => {
-    setImage(null);
+    setImagePath(null);
     setFileName("No selected file");
     if (inputRef && inputRef.current) {
       inputRef.current.value = "";
@@ -43,6 +58,17 @@ const ImageInput: React.FC<Props> = (props) => {
   const styleDesImage = {
     width: `${width}px`,
   };
+  useEffect(() => {
+    if (file) {
+      setFileName(file!.name);
+      if (file) {
+        setImagePath(URL.createObjectURL(file));
+        // if (onChange) {
+        //   onChange();
+        // }
+      }
+    }
+  }, [file]);
   return (
     <div className="imageInputContainer">
       <input
@@ -60,17 +86,23 @@ const ImageInput: React.FC<Props> = (props) => {
         onClick={handleClick}
         style={stylePreviewImage}
       >
-        {image ? (
-          <img className="previewImage" src={image} alt="Thumbnail product" />
+        {imagePath ? (
+          <img
+            className="previewImage"
+            src={imagePath}
+            alt="Thumbnail product"
+          />
         ) : (
           <img src="/assets/image/icon-upload-image.png" alt="" />
         )}
       </div>
       <div className="desImage" style={styleDesImage}>
         <div className="fileName">{fileName}</div>
-        <i className="iconDelete" onClick={onClickRemoveImage}>
-          <HighlightOffIcon />
-        </i>
+        {imagePath && (
+          <i className="iconDelete" onClick={onClickRemoveImage}>
+            <HighlightOffIcon />
+          </i>
+        )}
       </div>
     </div>
   );

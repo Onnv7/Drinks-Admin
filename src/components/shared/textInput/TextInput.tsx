@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import "./textinput.scss";
 
 type Props = {
@@ -6,10 +6,19 @@ type Props = {
   width?: number;
   placeHolderText?: string;
   type?: string;
+  value?: string;
+  onChange?: (e: ChangeEvent) => void;
 };
 
 const TextInput: React.FC<Props> = (props) => {
-  const { height = 30, width, placeHolderText, type = "text" } = props;
+  const {
+    height = 30,
+    width,
+    placeHolderText,
+    type = "text",
+    value,
+    onChange,
+  } = props;
 
   const style = {
     height: `${height}px`,
@@ -18,7 +27,13 @@ const TextInput: React.FC<Props> = (props) => {
 
   return (
     <div className="textInputContainer" style={style}>
-      <input type={type} className="textInput" placeholder={placeHolderText} />
+      <input
+        type={type}
+        className="textInput"
+        placeholder={placeHolderText}
+        value={value}
+        onChange={onChange}
+      />
     </div>
   );
 };

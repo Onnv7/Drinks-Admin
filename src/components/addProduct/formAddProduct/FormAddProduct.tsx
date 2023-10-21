@@ -1,19 +1,22 @@
-import React from "react";
+import React, { FormEvent } from "react";
 import "./formaddproduct.scss";
 import ElevatedButton from "../../shared/elevatedButton/ElevatedButton";
 import ImageInput from "../../shared/imageInput/ImageInput";
 import TextInput from "../../shared/textInput/TextInput";
 import SizeItem from "../sizeItem/SizeItem";
 import AddSize from "../addSize/AddSize";
+import AddTopping from "../addTopping/AddTopping";
+import AddImage from "../addImage/AddImage";
 
 const FormAddProduct: React.FC = () => {
-  const onAddNewSize = () => {};
-
+  const onSubmit = () => {
+    console.log("submit");
+  };
   return (
-    <div className="formContainer">
+    <form className="formContainer">
       <div className="productTitle">Product info</div>
-      <div className="productInfo productField">
-        <div className="productName ">
+      <div className="productInfo">
+        <div className="productName productField">
           <label className="productFieldTitle">Name: </label>
           <TextInput height={48} placeHolderText="Product's name" />
         </div>
@@ -34,17 +37,21 @@ const FormAddProduct: React.FC = () => {
           <label className="productFieldTitle">Size: </label>
           <AddSize />
         </div>
-        <SizeItem size="123" price={12} />
-      </div>
-      <div className="toppingTitle">Topping info</div>
-      <div className="toppingInfo">
-        <div>thum</div>
-      </div>
-      <div className="imageInfo"></div>
 
-      <span>asdas</span>
-      <span>asdas</span>
-    </div>
+        <div className="productTopping productField">
+          <label className="productFieldTitle">Topping: </label>
+          <AddTopping />
+        </div>
+
+        <div className="productImages productField">
+          <label className="productFieldTitle">Images: </label>
+          <AddImage />
+        </div>
+      </div>
+      <div className="submitCreateProduct" onClick={onSubmit}>
+        <ElevatedButton text="Submit" width={300} borderRadius={20} />
+      </div>
+    </form>
   );
 };
 

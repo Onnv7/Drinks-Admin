@@ -1,4 +1,4 @@
-import React, { FormEvent, FormEventHandler, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import "./login.scss";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
