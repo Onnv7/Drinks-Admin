@@ -2,7 +2,7 @@
   box-sizing: border-box;
   display: flex;
   .textInput {
-    border: 1px solid #f7c4b3;
+    border: 1px solid #faf2f2; //#faf2f2
     border-radius: 8px;
     font-size: var(--normalFz);
     padding: 8px 12px;
@@ -10,10 +10,10 @@
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    background-color: #faf2f2;
+    background-color: var(--backgroundInput); //#faf2f2
     &:focus {
-      background-color: #ffffff;
-      border-color: #ffcc00;
+      background-color: white;
+      border: 1px solid var(--borderInputColor);
     }
   }
 }

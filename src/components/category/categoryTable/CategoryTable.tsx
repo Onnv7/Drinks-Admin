@@ -1,21 +1,44 @@
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import React, { ReactNode } from "react";
-import { ICategory } from "../../../interfaces/category";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+
+import React, { ReactNode, useEffect, useState } from "react";
+
 import "./categorytable.scss";
+
+import { useAppDispatch } from "../../../services/redux/useTypedSelector";
+import {
+  clearStatusCategory,
+  deleteCategory,
+} from "../../../services/redux/slices/category.slice";
+import ModalYesNo from "../../shared/modalYesNo/ModalYesNo";
+import { useSelector } from "react-redux";
+import { categorySelector } from "../../../services/redux/selecters/selector";
+import Loading from "../../shared/loading/Loading";
+import UpdateCategoryModal from "../updateCategoryModal/UpdateCategoryModal";
+import { ICategory } from "../../../interfaces/model/category";
 import OutLineButton from "../../shared/outlineButton/OutLineButton";
-import { Button } from "@mui/material";
+import ElevatedButton from "../../shared/elevatedButton/ElevatedButton";
+import { toaster } from "../../../helper/toaster";
+import { ColorConstants } from "../../../constants/ColorConstant";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 type Props = {
-  category?: ICategory[];
+  categoryList?: ICategory[];
 };
 
 const CategoryTable: React.FC<Props> = (props) => {
-  const { category = [] } = props;
+  const dispatch = useAppDispatch();
+  const categoryPayload = useSelector(categorySelector);
+  const { categoryList: category = [] } = props;
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openViewModal, setOpenViewModal] = useState(false);
+  const [idSelected, setIdSelected] = useState<string | null>(null);
+
   const columns: GridColDef[] = [
     {
       field: "id",
       headerName: "ID",
-      width: 70,
+      width: 250,
       align: "center",
       headerAlign: "center",
     },
@@ -27,16 +50,44 @@ const CategoryTable: React.FC<Props> = (props) => {
       headerAlign: "center",
     },
     {
-      field: "thumbnailUrl",
+      field: "image",
       headerName: "Image",
       width: 130,
       align: "center",
+      flex: 1,
       headerAlign: "center",
       renderCell: (params) => {
-        console.log(params);
         return (
           <>
-            <img src={params.value} />
+            <img className="cellCategoryImage" src={params.value.url} alt="" />
+          </>
+        );
+      },
+    },
+    {
+      field: "enabled",
+      headerName: "Status",
+      width: 130,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params): ReactNode => {
+        const enabled = params.row.enabled;
+
+        return (
+          <>
+            {enabled ? (
+              <OutLineButton
+                backgroundColor="#17f2172f"
+                color="green"
+                text="Enabled"
+              />
+            ) : (
+              <OutLineButton
+                backgroundColor="#f2412623"
+                color="red"
+                text="Disabled"
+              />
+            )}
           </>
         );
       },
@@ -47,37 +98,75 @@ const CategoryTable: React.FC<Props> = (props) => {
       width: 160,
       align: "center",
       headerAlign: "center",
+      flex: 1,
 
-      // <div className="cellCategoryAction">
-      //   <div className="viewCategoryButton">View</div>
-      //   <div className="deleteCategoryButton">Delete</div>
-      // </div>
       renderCell: (params): ReactNode => {
         return (
           <>
-            <Button variant="outlined" color="secondary">
-              View
-            </Button>
-            <Button variant="outlined" color="error">
-              Delete
-            </Button>
+            <div className="cellCategoryAction">
+              <ElevatedButton
+                text="View"
+                backgroundColor={ColorConstants.brownButton}
+                onClick={() => handleViewButtonClick(params.row.id)}
+              />
+              <ElevatedButton
+                text="Delete"
+                // color="red"
+                backgroundColor={ColorConstants.redNegative}
+                onClick={() => handleDeleteButtonClick(params.row.id)}
+              />
+            </div>
           </>
         );
       },
     },
   ];
+  // event handlers =================================================================
+  const handleViewButtonClick = (id: string) => {
+    setIdSelected(id);
+    setOpenViewModal(true);
+  };
+
+  const handleDeleteButtonClick = (id: string) => {
+    setIdSelected(id);
+    setOpenDeleteModal(true);
+  };
+
+  const deleteCategorySelected = async (id: string | null) => {
+    if (id !== null) {
+      await dispatch(deleteCategory(id));
+    }
+  };
 
   return (
-    <div
-      className="categoryTableContainer"
-      style={{ height: 400, width: "100%" }}
-    >
+    <div className="categoryTableContainer">
+      {openViewModal && (
+        <UpdateCategoryModal
+          onClose={() => setOpenViewModal(false)}
+          category={category.filter((it) => it.id === idSelected)[0]}
+        />
+      )}
+      {/* {categoryPayload.loading && <Loading />} */}
+      {openDeleteModal && (
+        <ModalYesNo
+          width="500px"
+          height="200px"
+          title="Notification"
+          content="Do you want to delete this category?"
+          onNoClick={() => setOpenDeleteModal(false)}
+          onYesClick={() => deleteCategorySelected(idSelected)}
+          onClose={() => setOpenDeleteModal(false)}
+        />
+      )}
       <DataGrid
+        className="categoryGrid"
+        autoHeight
+        rowHeight={150}
         rows={category}
         columns={columns}
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
+            paginationModel: { page: 0, pageSize: 10 },
           },
         }}
         pageSizeOptions={[5, 10]}

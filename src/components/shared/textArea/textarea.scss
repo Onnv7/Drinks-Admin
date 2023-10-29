@@ -1,0 +1,20 @@
+.textAreaContainer {
+  //   height: fit-content;
+  //   width: fit-content;
+  .textArea {
+    box-sizing: border-box;
+    resize: none;
+    outline: none;
+    border-radius: 4px;
+    padding: 8px;
+    background-color: var(--backgroundInput);
+    border: none;
+    font-family: "Roboto", sans-serif;
+    font-size: var(--normalFz);
+
+    &:focus {
+      background-color: white;
+      border: 1px solid var(--borderInputColor);
+    }
+  }
+}

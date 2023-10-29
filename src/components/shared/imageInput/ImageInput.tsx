@@ -3,20 +3,19 @@ import "./imageinput.scss";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 type Props = {
-  height?: number;
-  width?: number;
-  file?: File;
-  isClearAfterUpload?: boolean;
+  height?: string;
+  width?: string;
+  pathValue?: string;
+  file?: File | null;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 const ImageInput: React.FC<Props> = (props) => {
   const {
-    height = 300,
-    width = 300,
+    height = "300px",
+    width = "300px",
     onChange,
-    file,
-    isClearAfterUpload = false,
+    file, // dùng cho trường hợp nhiều ảnh = true
   } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -34,10 +33,7 @@ const ImageInput: React.FC<Props> = (props) => {
       if (onChange) {
         onChange(e);
       }
-      if (isClearAfterUpload) {
-        onClickRemoveImage();
-        return;
-      }
+
       setFileName(fi.name);
       setImagePath(URL.createObjectURL(fi));
     }
@@ -52,21 +48,22 @@ const ImageInput: React.FC<Props> = (props) => {
   };
 
   const stylePreviewImage = {
-    height: `${height}px`,
-    width: `${width}px`,
+    height: height,
+    width: width,
   };
   const styleDesImage = {
-    width: `${width}px`,
+    width: width,
   };
+
   useEffect(() => {
     if (file) {
       setFileName(file!.name);
       if (file) {
         setImagePath(URL.createObjectURL(file));
-        // if (onChange) {
-        //   onChange();
-        // }
       }
+    } else {
+      setFileName("No selected file");
+      setImagePath(null);
     }
   }, [file]);
   return (
@@ -87,11 +84,7 @@ const ImageInput: React.FC<Props> = (props) => {
         style={stylePreviewImage}
       >
         {imagePath ? (
-          <img
-            className="previewImage"
-            src={imagePath}
-            alt="Thumbnail product"
-          />
+          <img className="previewImage" src={imagePath} alt="" />
         ) : (
           <img src="/assets/image/icon-upload-image.png" alt="" />
         )}

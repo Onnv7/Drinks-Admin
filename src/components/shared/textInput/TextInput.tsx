@@ -1,13 +1,13 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, memo } from "react";
 import "./textinput.scss";
 
 type Props = {
-  height?: number;
-  width?: number;
+  height?: string;
+  width?: string;
   placeHolderText?: string;
   type?: string;
   value?: string;
-  onChange?: (e: ChangeEvent) => void;
+  onChange?: (e: any) => void;
 };
 
 const TextInput: React.FC<Props> = (props) => {
@@ -21,8 +21,8 @@ const TextInput: React.FC<Props> = (props) => {
   } = props;
 
   const style = {
-    height: `${height}px`,
-    width: width ? `${width}px` : "100%",
+    height: height,
+    width: width ?? "100%",
   };
 
   return (
@@ -38,4 +38,4 @@ const TextInput: React.FC<Props> = (props) => {
   );
 };
 
-export default TextInput;
+export default memo(TextInput);

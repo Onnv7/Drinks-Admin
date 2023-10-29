@@ -1,0 +1,17 @@
+.viewEmployeeContainer {
+  .viewEmployeeTitle {
+    margin: 12px 0px;
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--primaryColor);
+  }
+
+  .viewEmployeeFormContainer {
+    display: flex;
+    justify-content: center;
+    margin: 4px 24px;
+    padding: 16px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  }
+}

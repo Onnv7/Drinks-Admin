@@ -1,33 +1,79 @@
-import React, { FormEvent, MouseEventHandler, useState } from "react";
-import useAuth from "../../hooks/useAuth";
+import React, { MouseEventHandler, useEffect, useState } from "react";
+
 import "./login.scss";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import axios from "../../services/api/axios";
 
+import { login } from "../../services/redux/slices/login.slice";
+import { useSelector } from "react-redux";
+
+import { ILoginReq } from "../../interfaces/request/auth.request";
+import { useAppDispatch } from "../../services/redux/useTypedSelector";
+import { loginSelector } from "../../services/redux/selecters/selector";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+import { toaster } from "../../helper/toaster";
+import { text } from "stream/consumers";
+import { storageManager } from "../../helper/storager";
 const Login: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { auth, setAuth } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { setAuth } = useAuth();
+
+  const navigate = useNavigate();
+  const loginState = useSelector(loginSelector);
+
+  useEffect(() => {
+    const { loginRes } = loginState;
+    // TH chặn login rồi => home
+    if (storageManager.getToken()) {
+      navigate("/");
+    }
+    // TH login thành công
+    else if (loginState.error === null && loginState.loginRes !== null) {
+      const data = loginState.loginRes;
+      setAuth({
+        userId: data.userId,
+        accessToken: data.accessToken,
+      });
+      if (loginRes?.accessToken !== null) {
+        storageManager.setUserId(data.userId!);
+        storageManager.setToken(data.accessToken!);
+      }
+      toaster.success({ text: "Login successful" });
+      navigate("/");
+    } else if (loginState.error !== null) {
+      toaster.error({ text: loginState.error! });
+    }
+  }, [auth, loginState, navigate, setAuth]);
+
+  // event handlers =================================================================
   const onLogin: MouseEventHandler<HTMLDivElement> = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "/api/auth/employee/login",
-        {
-          username: username,
-          password: password,
-        },
-        { withCredentials: true }
-      );
-      console.log(response);
-      console.log(response.data);
+      const data: ILoginReq = {
+        username: username,
+        password: password,
+      };
+      dispatch(login(data));
     } catch (e) {
       console.log(e);
     }
   };
+
   return (
     <div className="loginContainer">
+      <ToastContainer />
+      {/* {loginState.loading && (
+        <div>
+          <img src="/assets/gif/loading.gif" alt="" />
+        </div>
+      )} */}
+
       <div className="cardForm">
         <div className="title">Sign in to Admin</div>
         <form>

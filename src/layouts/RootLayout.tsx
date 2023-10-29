@@ -10,7 +10,9 @@ const RootLayout: React.FC = () => {
       <SideBar />
       <div className="rootContainer">
         <TopBar />
-        <Outlet />
+        <div className="rootContent">
+          <Outlet />
+        </div>
       </div>
     </>
   );

@@ -1,5 +1,5 @@
 export interface IAuth {
-  username: string;
-  accessToken: string;
-  refreshToken: string;
+  userId: string | null;
+  username?: string | null;
+  accessToken: string | null;
 }

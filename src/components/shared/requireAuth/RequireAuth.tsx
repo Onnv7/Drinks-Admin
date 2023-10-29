@@ -4,7 +4,9 @@ import useAuth from "../../../hooks/useAuth";
 const RequireAuth: React.FC = () => {
   const { auth } = useAuth();
   const location = useLocation();
-  return true ? (
+  const item = window.localStorage.getItem("token");
+
+  return item ? (
     <Outlet />
   ) : (
     <Navigate to="/login" state={{ from: location }} replace />

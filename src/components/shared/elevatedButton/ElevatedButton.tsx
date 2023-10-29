@@ -4,17 +4,16 @@ import { ColorConstants } from "../../../constants/ColorConstant";
 
 type Props = {
   text: string;
-  icon?: string;
   color?: string;
   backgroundColor?: string;
-  height?: number;
-  width?: number;
+  height?: string;
+  width?: string;
   onClick?: () => void;
   borderRadius?: number;
 };
 
 const ElevatedButton: React.FC<Props> = (props) => {
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLElement>): void => {
     if (onClick != null) {
       onClick();
     }
@@ -22,7 +21,6 @@ const ElevatedButton: React.FC<Props> = (props) => {
   const {
     text,
     color = ColorConstants.white,
-    icon,
     onClick,
     backgroundColor = ColorConstants.bluePositive,
     height,
@@ -33,15 +31,14 @@ const ElevatedButton: React.FC<Props> = (props) => {
   const style = {
     color: color,
     backgroundColor: backgroundColor,
-    height: `${height}px`,
-    width: `${width}px`,
+    height: height,
+    width: width,
     borderRadius: `${borderRadius}px`,
   };
 
   return (
     <div className="elevatedBtnContainer" style={style} onClick={handleClick}>
-      {props.icon && <i className={icon}></i>}
-      <div className="content">{text}</div>
+      <div className="contentElevatedButton">{text}</div>
     </div>
   );
 };

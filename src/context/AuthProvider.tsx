@@ -18,9 +18,8 @@ type Props = {
 
 const defaultState = {
   auth: {
-    username: "",
-    accessToken: "",
-    refreshToken: "",
+    username: null,
+    accessToken: null,
   },
   setAuth: (auth: IAuth) => {},
 } as AuthType;
@@ -29,9 +28,9 @@ export const AuthContext = createContext(defaultState);
 
 export const AuthProvider = ({ children }: Props) => {
   const [auth, setAuth] = useState<IAuth>({
-    username: "",
-    accessToken: "",
-    refreshToken: "",
+    userId: null,
+    username: null,
+    accessToken: null,
   });
 
   return (

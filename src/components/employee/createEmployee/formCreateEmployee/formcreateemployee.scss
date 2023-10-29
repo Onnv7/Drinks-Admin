@@ -1,0 +1,66 @@
+.formCreateEmployeeContainer {
+  width: 100%;
+  .formCreateEmployeeCalendar {
+    width: fit-content;
+  }
+  .employeeFieldTitle {
+    display: flex;
+    align-items: center;
+    min-width: 90px;
+    margin: 0 8px;
+  }
+  .employeeTitle {
+    font-size: var(--mediumFz);
+  }
+  .employeeInfo {
+    font-size: var(--normalFz);
+    .employeeField {
+      margin: 28px 4px;
+      display: flex;
+      > input {
+        display: flex;
+        align-items: center;
+        height: 30px;
+        width: 100%;
+        background-color: #faf2f2;
+        border: 1px solid #f7c4b3;
+        border-radius: 5px;
+        padding: 5px 12px;
+
+        &:focus {
+          background-color: #ffffff;
+          border-color: #ffcc00;
+          outline: none;
+        }
+      }
+
+      .formCreateEmployeeGender {
+        flex: 1;
+        display: flex;
+      }
+      .formCreateEmployeeCalendar {
+        flex: 1;
+        display: flex;
+      }
+    }
+
+    .radioGenderItemWrap {
+      display: flex;
+      margin: 0 0 0 0;
+      flex: 1;
+      // justify-content: space-around;
+      .sizedBox {
+        height: 5px;
+        width: 12px;
+      }
+    }
+  }
+  .submitCreateEmployee {
+    text-align: center;
+  }
+}
+.custom-date-picker {
+  border-radius: 4px;
+  background-color: var(--secondaryColor);
+  outline: none;
+}

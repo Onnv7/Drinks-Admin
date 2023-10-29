@@ -2,28 +2,41 @@
 $primaryColor: #6c3428;
 $secondaryColor: #f8ede3;
 $brownMain: #765827;
+$brownDark: #6d4d18;
 $redMainColor: #f31c1c;
-$blueMainColor: #44d3f0;
+$blueMainColor: #6edff5;
 $greenMainColor: #41ee55;
+$backgroundInput: #f5e4d9;
+$backgroundOutSiteColor: #65616195;
+$borderInputColor: #ffcc00;
+$test: #b55510;
 
 $largeFz: 24px;
 $mediumFz: 20px;
 $normalFz: 16px;
 $smallFz: 12px;
 $headerFz: 30px;
+$inputHeight: 40px;
 
 :root {
   --primaryColor: #{$primaryColor};
   --secondaryColor: #{$secondaryColor};
   --brownMain: #{$brownMain};
+  --brownDark: #{$brownDark};
+
   --largeFz: #{$largeFz};
   --mediumFz: #{$mediumFz};
   --normalFz: #{$normalFz};
   --smallFz: #{$smallFz};
   --headerFz: #{$headerFz};
+
   --redMainColor: #{$redMainColor};
   --blueMainColor: #{$blueMainColor};
   --greenMainColor: #{$greenMainColor};
+  --borderInputColor: #{$borderInputColor};
+  --backgroundOutSiteColor: #{$backgroundOutSiteColor};
+  --backgroundInput: #{$backgroundInput};
+  --inputHeight: #{$inputHeight};
 }
 html,
 body {
@@ -33,4 +46,7 @@ body {
   width: 100%;
   font-family: "Roboto", sans-serif;
   font-size: var(--normalFz);
+}
+.MuiDataGrid-root .MuiDataGrid-cell:focus-within {
+  outline: none !important;
 }

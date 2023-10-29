@@ -36,8 +36,26 @@
         margin-top: 15px;
         margin-bottom: 8px;
       }
-
+      .selectedItemSidebar {
+        background-color: var(--brownDark);
+        border-radius: 16px;
+        .icon {
+          font-size: var(--normalFz);
+          color: white;
+        }
+        span {
+          justify-content: center;
+          align-items: center;
+          display: flex;
+          height: 30px;
+          font-size: var(--normalFz);
+          font-weight: 400;
+          color: white;
+          margin-left: 10px;
+        }
+      }
       li {
+        margin: 4px 0px;
         display: flex;
         align-items: center;
         padding: 4px 12px;

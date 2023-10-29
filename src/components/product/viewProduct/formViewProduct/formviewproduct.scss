@@ -1,0 +1,58 @@
+.formViewProductContainer {
+  width: 100%;
+  .formViewProductFieldTitle {
+    display: inline-block;
+    min-width: 90px;
+    margin: 0 8px;
+  }
+
+  .formViewProductInfo {
+    font-size: var(--normalFz);
+    .formViewProductField {
+      margin: 8px 4px;
+      display: flex;
+      > input {
+        display: flex;
+        align-items: center;
+        height: 30px;
+        width: 100%;
+        background-color: #faf2f2;
+        border: 1px solid #f7c4b3;
+        border-radius: 5px;
+        padding: 5px 12px;
+
+        &:focus {
+          background-color: #ffffff;
+          border-color: #ffcc00;
+          outline: none;
+        }
+      }
+
+      //   .thumbnailWrapper {
+      //     padding: 4px;
+      //     border: 2cqw solid rgb(218, 215, 215);
+      //     border-radius: 12px;
+      //     flex: 0 0 auto;
+      //     width: 200px;
+      //     height: 200px;
+      //     box-sizing: border-box;
+      //     .thumbnailPreview {
+      //       width: 100%;
+      //       height: 100%;
+      //       object-fit: cover;
+      //       border-radius: 8px;
+      //     }
+      //   }
+
+      .formViewProductDescriptionTextArea {
+        width: 100%;
+      }
+    }
+    .formViewProductSize {
+      display: flex;
+    }
+  }
+  .formViewProductSizeSubmitButton {
+    text-align: center;
+  }
+}

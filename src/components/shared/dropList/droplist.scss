@@ -1,0 +1,60 @@
+.dropListContainer {
+  width: 100%;
+  box-sizing: border-box;
+  .dropListHeader {
+    dropListTitle {
+    }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--backgroundInput);
+    border: 1px solid transparent;
+    // min-width: 200px;
+    border-radius: 8px;
+    width: 100%;
+    vertical-align: middle;
+    padding: 0 12px;
+    height: 40px;
+
+    box-sizing: border-box;
+    cursor: pointer;
+    user-select: none;
+  }
+  .dropListBody {
+    position: relative;
+    .dropListElements {
+      margin-top: 8px;
+      position: absolute;
+      box-sizing: border-box;
+      width: 100%;
+      background-color: var(--backgroundInput);
+      border-radius: 8px;
+      padding: 4px 4px;
+      > ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        > li {
+          user-select: none;
+          height: 40px;
+          margin: 4px 8px;
+          padding: 0 12px;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          &.activeItemDropList:hover,
+          &:hover {
+            color: white;
+            background-color: #b87e408c;
+            border-radius: 8px;
+          }
+          &.activeItemDropList {
+            color: white;
+            background-color: #804200c7;
+            border-radius: 8px;
+          }
+        }
+      }
+    }
+  }
+}

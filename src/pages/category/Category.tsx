@@ -1,45 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./category.scss";
-import { Link } from "react-router-dom";
-
 import OutLineButton from "../../components/shared/outlineButton/OutLineButton";
-import { RouteConstants } from "../../constants/RouteConstant";
-import { ICategory } from "../../interfaces/category";
 import CategoryTable from "../../components/category/categoryTable/CategoryTable";
-import CategoryModal from "../../components/category/modal/CategoryModal";
+import CreateCategoryModal from "../../components/category/createCategoryModal/CreateCategoryModal";
+import { useAppDispatch } from "../../services/redux/useTypedSelector";
+import {
+  clearStatusCategory,
+  getAllCategory,
+} from "../../services/redux/slices/category.slice";
+import { useSelector } from "react-redux";
+import { categorySelector } from "../../services/redux/selecters/selector";
+import Loading from "../../components/shared/loading/Loading";
 
 const Category: React.FC = () => {
+  const dispatch = useAppDispatch();
   const [openModal, setOpenModal] = useState(false);
-  const rows: ICategory[] = [
-    {
-      id: "1",
-      name: "Snow",
-      thumbnailUrl:
-        "https://i.pinimg.com/564x/1d/2e/6b/1d2e6b51223c0bad567d946d2d7c2fb8.jpg",
-    },
-    {
-      id: "2",
-      name: "Snow 2",
-      thumbnailUrl:
-        "https://i.pinimg.com/564x/1d/2e/6b/1d2e6b51223c0bad567d946d2d7c2fb8.jpg",
-    },
-  ];
+  const categoryPayload = useSelector(categorySelector);
 
   const onSwitchModal = () => {
     setOpenModal(!openModal);
   };
 
+  useEffect(() => {
+    const loadData = async () => {
+      await dispatch(getAllCategory());
+      // dispatch(clearStatusCategory());
+    };
+    loadData();
+  }, [dispatch]);
+
   return (
     <div className="categoryContainer">
-      {openModal && <CategoryModal onClose={onSwitchModal} />}
+      {/* {categoryPayload.loading && <Loading />} */}
+      {openModal && <CreateCategoryModal onClose={onSwitchModal} />}
       <div className="categoryHeader">
-        <div className="title">Category Table</div>
-
-        <OutLineButton text="Add new category" onClick={onSwitchModal} />
+        <div className="title">CATEGORY TABLE</div>
+        <div className="addButtonCategory">
+          <OutLineButton
+            text="Add new category"
+            onClick={onSwitchModal}
+            backgroundColor="#1ad0ec27"
+          />
+        </div>
       </div>
       <div className="categoryContent">
         <div className="categoryTable">
-          <CategoryTable category={rows} />
+          <CategoryTable categoryList={categoryPayload.categories} />
         </div>
       </div>
     </div>

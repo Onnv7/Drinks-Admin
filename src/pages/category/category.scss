@@ -1,7 +1,8 @@
 .categoryContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   .categoryHeader {
-    position: relative;
-
     .title {
       margin: 12px 0px;
       text-align: center;
@@ -9,14 +10,20 @@
       font-weight: bold;
       color: var(--primaryColor);
     }
+
+    .addButtonCategory {
+      display: flex;
+      justify-content: end;
+      margin: 12px 24px;
+    }
   }
-
-  .categoryTable {
-    display: flex;
-    justify-content: center;
-    margin: 4px 24px;
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+  .categoryContent {
+    flex: 1;
+    .categoryTable {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      margin: 4px 24px;
+    }
   }
-
-
 }

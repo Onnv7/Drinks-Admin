@@ -19,7 +19,7 @@
       font-weight: bold;
       text-align: center;
       color: var(--primaryColor);
-      margin: 0 auto;
+      margin: 12px auto 32px auto;
     }
 
     form {
@@ -38,8 +38,6 @@
         &::placeholder {
           color: rgb(192, 187, 187);
         }
-
-
       }
 
       .loginPassword,
@@ -57,16 +55,12 @@
           padding: 4px;
           display: flex;
           justify-content: center;
-          color: rgb(192, 187, 187)
+          color: rgb(192, 187, 187);
         }
 
         &:focus-within {
-
           border: 2px solid var(--primaryColor);
-
-
         }
-
       }
 
       .submitButton {
@@ -80,8 +74,18 @@
         color: white;
         margin: 0 auto;
         cursor: pointer;
+        margin: 24px auto;
+        transition: color 3s;
+        transition: background-color 3s;
+        &:active {
+          color: rgb(32, 28, 28);
+          background-color: rgb(183, 241, 246);
+        }
+        &:hover {
+          color: rgb(97, 94, 94);
+          background-color: rgb(118, 230, 240);
+        }
       }
-
     }
   }
 }

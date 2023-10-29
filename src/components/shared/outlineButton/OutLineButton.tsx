@@ -3,14 +3,25 @@ import "./outlinebutton.scss";
 import { ColorConstants } from "../../../constants/ColorConstant";
 type Props = {
   text: string;
-  icon?: string;
   color?: string;
+  height?: string;
+  width?: string;
+  borderColor?: string;
+  backgroundColor?: string;
   onClick?: () => void;
 };
 
 const OutLineButton: React.FC<Props> = (props) => {
-  const { text, icon, color = ColorConstants.bluePositive, onClick } = props;
-  const handleClick = () => {
+  const {
+    text,
+    color = ColorConstants.bluePositive,
+    onClick,
+    height,
+    width,
+    borderColor,
+    backgroundColor,
+  } = props;
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (onClick != null) {
       onClick();
     }
@@ -18,13 +29,15 @@ const OutLineButton: React.FC<Props> = (props) => {
 
   const style = {
     color: color,
-    border: `1px solid ${color}`,
+    border: borderColor ? `1px solid ${borderColor}` : `1px solid ${color}`,
+    height: height,
+    width: width,
+    backgroundColor: backgroundColor,
   };
 
   return (
-    <div className="buttonContainer" style={style} onClick={handleClick}>
-      {props.icon && <i className={icon}></i>}
-      <div className="content">{text}</div>
+    <div className="outLineButtonContainer" style={style} onClick={handleClick}>
+      <div className="contentOutLineButton">{text}</div>
     </div>
   );
 };
