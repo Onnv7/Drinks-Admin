@@ -7,6 +7,7 @@ import { useAppDispatch } from "../../services/redux/useTypedSelector";
 import { getAllCategory } from "../../services/redux/slices/category.slice";
 import { useSelector } from "react-redux";
 import { categorySelector } from "../../services/redux/selecters/selector";
+import { selectItemBar } from "../../services/redux/slices/sidebar.slice";
 
 const Category: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -20,6 +21,7 @@ const Category: React.FC = () => {
   useEffect(() => {
     const loadData = async () => {
       await dispatch(getAllCategory());
+      dispatch(selectItemBar("category"));
       // dispatch(clearStatusCategory());
     };
     loadData();
@@ -41,7 +43,7 @@ const Category: React.FC = () => {
       </div>
       <div className="categoryContent">
         <div className="categoryTable">
-          <CategoryTable categoryList={categoryPayload.categories} />
+          <CategoryTable categoryList={categoryPayload?.categories} />
         </div>
       </div>
     </div>

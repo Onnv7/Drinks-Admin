@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { employeeSelector } from "../../services/redux/selecters/selector";
 import EmployeeTable from "../../components/employee/table/EmployeeTable";
 import { getAllEmployees } from "../../services/redux/slices/employee.slice";
+import { selectItemBar } from "../../services/redux/slices/sidebar.slice";
 
 const Employee: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +17,7 @@ const Employee: React.FC = () => {
   useEffect(() => {
     const loadData = async () => {
       await dispatch(getAllEmployees());
+      dispatch(selectItemBar("employee"));
     };
     loadData();
   }, [dispatch]);

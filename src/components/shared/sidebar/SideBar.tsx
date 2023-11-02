@@ -1,16 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./sidebar.scss";
 import GridViewTwoToneIcon from "@mui/icons-material/GridViewTwoTone";
 import Inventory2TwoToneIcon from "@mui/icons-material/Inventory2TwoTone";
 import CategoryTwoToneIcon from "@mui/icons-material/CategoryTwoTone";
 import Groups2TwoToneIcon from "@mui/icons-material/Groups2TwoTone";
 import { Link } from "react-router-dom";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import { storageManager } from "../../../helper/storager";
+import { useAppDispatch } from "../../../services/redux/useTypedSelector";
+import { useSelector } from "react-redux";
+import { sidebarSelector } from "../../../services/redux/selecters/selector";
+import { selectItemBar } from "../../../services/redux/slices/sidebar.slice";
 
 const SideBar: React.FC = () => {
-  const [selectedItem, setSelectedItem] = useState("dashboard");
+  const dispatch = useAppDispatch();
+  const sidebarPayload = useSelector(sidebarSelector);
+  const [selectedItem, setSelectedItem] = useState(sidebarPayload.itemName);
 
   const handleItemClick = (item: string) => {
-    setSelectedItem(item);
+    dispatch(selectItemBar(item));
+  };
+
+  useEffect(() => {
+    setSelectedItem(sidebarPayload.itemName);
+  }, [sidebarPayload.itemName]);
+
+  const handleLogout = () => {
+    storageManager.clearStore();
+    window.location.href = "/";
   };
 
   return (
@@ -80,9 +97,36 @@ const SideBar: React.FC = () => {
               <span>Employee</span>
             </li>
           </Link>
+
+          <p className="title">Other</p>
+          <Link
+            to="/profile"
+            className={`link`}
+            onClick={() => handleItemClick("profile")}
+          >
+            <li
+              className={`link ${
+                selectedItem === "profile" ? "selectedItemSidebar" : ""
+              }`}
+            >
+              <Groups2TwoToneIcon className="icon" />
+              <span>Profile</span>
+            </li>
+          </Link>
+          <li
+            onClick={() => handleLogout()}
+            className={`link ${
+              selectedItem === "logout" ? "selectedItemSidebar" : ""
+            }`}
+          >
+            <LogoutRoundedIcon className="icon" />
+            <span>Logout</span>
+          </li>
         </ul>
       </div>
-      <div className="bottom">Fotter</div>
+      {/* <div className="bottom">
+        <span className="logo">Other</span>
+      </div> */}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 export interface ILoginRes {
-  userId: string;
+  employeeId: string;
   username: string;
   accessToken: string;
 }

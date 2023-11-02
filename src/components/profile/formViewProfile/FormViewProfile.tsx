@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from "react";
-import "./formviewemployee.scss";
-import ElevatedButton from "../../../shared/elevatedButton/ElevatedButton";
-import TextInput from "../../../shared/textInput/TextInput";
-import "react-calendar/dist/Calendar.css";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import RadioInput from "../../../shared/radioInput/RadioInput";
-import { IUpdateEmployeeReq } from "../../../../interfaces/request/employee.request";
-import { Gender } from "../../../../enums/Gender";
+import "./formviewprofile.scss";
+import { IUpdateEmployeeReq } from "../../../interfaces/request/employee.request";
+import { useAppDispatch } from "../../../services/redux/useTypedSelector";
 import {
-  DatePicker,
-  DateValidationError,
   PickerChangeHandlerContext,
+  DateValidationError,
+  LocalizationProvider,
+  DatePicker,
 } from "@mui/x-date-pickers";
-import { useAppDispatch } from "../../../../services/redux/useTypedSelector";
-
-import { updateEmployee } from "../../../../services/redux/slices/employee.slice";
-import { useSelector } from "react-redux";
-import { employeeSelector } from "../../../../services/redux/selecters/selector";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import OutLineButton from "../../../shared/outlineButton/OutLineButton";
-import DropList from "../../../shared/dropList/DropList";
-import ChangePasswordEmployeeModal from "../changePassword/ChangePasswordEmployeeModal";
-import { updateEmployeeSchema } from "../../../../validators/EmployeeValidateSchema";
-import useValidator from "../../../../validators/useValidator";
+import { useSelector } from "react-redux";
+import { Gender } from "../../../enums/Gender";
+import {
+  employeeSelector,
+  profileSelector,
+} from "../../../services/redux/selecters/selector";
+import { updateEmployee } from "../../../services/redux/slices/employee.slice";
+import { updateEmployeeSchema } from "../../../validators/EmployeeValidateSchema";
+import useValidator from "../../../validators/useValidator";
+import ChangePasswordEmployeeModal from "../../employee/viewEmployee/changePassword/ChangePasswordEmployeeModal";
+import FormViewEmployee from "../../employee/viewEmployee/formViewEmployee/FormViewEmployee";
+import DropList from "../../shared/dropList/DropList";
+import ElevatedButton from "../../shared/elevatedButton/ElevatedButton";
+import OutLineButton from "../../shared/outlineButton/OutLineButton";
+import RadioInput from "../../shared/radioInput/RadioInput";
+import TextInput from "../../shared/textInput/TextInput";
+import { updateProfile } from "../../../services/redux/slices/profile.slice";
+import ChangePasswordModal from "../changePassword/ChangePasswordModal";
 
-const FormViewEmployee = () => {
+const FormViewProfile = () => {
   const initialItem = {
     id: "",
     username: "",
@@ -38,21 +42,27 @@ const FormViewEmployee = () => {
   } as IUpdateEmployeeReq;
   const dispatch = useAppDispatch();
 
-  const employeePayload = useSelector(employeeSelector);
+  const profilePayload = useSelector(profileSelector);
   const { errors, validate } = useValidator(updateEmployeeSchema);
-  const [item, setItem] = useState(employeePayload.viewEmployee ?? initialItem);
+  const [item, setItem] = useState(profilePayload.profile ?? initialItem);
   const [openChangePwdModal, setOpenChangePwdModal] = useState(false);
 
   useEffect(() => {
-    if (employeePayload.viewEmployee) setItem(employeePayload.viewEmployee);
-  }, [employeePayload.viewEmployee]);
+    if (profilePayload.profile) {
+      setItem(profilePayload.profile);
+    }
+  }, [profilePayload.profile]);
 
   // event handlers ==============================================================
   const handleSubmit = async () => {
     console.log(item);
     const result = validate(item);
+    console.log(
+      "🚀 ~ file: FormViewProfile.tsx:59 ~ handleSubmit ~ result:",
+      result
+    );
     if (result) {
-      await dispatch(updateEmployee({ employee: item, id: item.id }));
+      await dispatch(updateProfile({ profile: item }));
     }
   };
 
@@ -76,13 +86,11 @@ const FormViewEmployee = () => {
       });
     }
   };
-  // const handleChangePassword = async () => {
-  //   await dispatch(changePassword({id: item.id, }))
-  // }
+
   return (
     <form className="formViewEmployeeContainer">
       {openChangePwdModal && (
-        <ChangePasswordEmployeeModal
+        <ChangePasswordModal
           onClose={() => setOpenChangePwdModal(false)}
           onCloseWhenClickOutSite={true}
         />
@@ -193,8 +201,8 @@ const FormViewEmployee = () => {
                 };
               });
             }}
-            errorMessage={errors.username}
             readOnly={true}
+            errorMessage={errors.username}
           />
           <div className="formViewEmployeeChangePasswordWrap">
             <OutLineButton
@@ -205,7 +213,7 @@ const FormViewEmployee = () => {
             />
           </div>
         </div>
-        <div className="employeeField">
+        {/* <div className="employeeField">
           <label className="employeeFieldTitle">Status: </label>
           <DropList
             labels={["Enable", "Disable"]}
@@ -219,7 +227,7 @@ const FormViewEmployee = () => {
               });
             }}
           />
-        </div>
+        </div> */}
       </div>
       <div className="submitCreateEmployee" onClick={handleSubmit}>
         <ElevatedButton text="Submit" width="300px" borderRadius={20} />
@@ -228,4 +236,4 @@ const FormViewEmployee = () => {
   );
 };
 
-export default FormViewEmployee;
+export default FormViewProfile;

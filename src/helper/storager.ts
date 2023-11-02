@@ -12,4 +12,7 @@ export const storageManager = {
   setToken: (token: string) => {
     return window.localStorage.setItem("token", token);
   },
+  clearStore: () => {
+    window.localStorage.clear();
+  },
 };

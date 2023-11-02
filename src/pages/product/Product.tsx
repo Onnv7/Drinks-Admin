@@ -8,6 +8,7 @@ import { useAppDispatch } from "../../services/redux/useTypedSelector";
 import { getAllProduct } from "../../services/redux/slices/product.slice";
 import { useSelector } from "react-redux";
 import { productSelector } from "../../services/redux/selecters/selector";
+import { selectItemBar } from "../../services/redux/slices/sidebar.slice";
 
 const Product: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +17,7 @@ const Product: React.FC = () => {
   useEffect(() => {
     const loadData = async () => {
       await dispatch(getAllProduct());
+      await dispatch(selectItemBar("product"));
     };
     loadData();
   }, [dispatch]);

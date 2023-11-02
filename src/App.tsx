@@ -16,6 +16,7 @@ import {
   categorySelector,
   employeeSelector,
   productSelector,
+  profileSelector,
   revenueSelector,
 } from "./services/redux/selecters/selector";
 import { toaster } from "./helper/toaster";
@@ -27,6 +28,8 @@ import CreateEmployee from "./pages/employee/createEmployee/CreateEmployee";
 import ViewEmployee from "./pages/employee/viewEmployee/ViewEmployee";
 import { clearStatusEmployee } from "./services/redux/slices/employee.slice";
 import ChangePasswordEmployeeModal from "./components/employee/viewEmployee/changePassword/ChangePasswordEmployeeModal";
+import { clearStatusProfile } from "./services/redux/slices/profile.slice";
+import Profile from "./pages/profile/Profile";
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -34,6 +37,7 @@ const App: React.FC = () => {
   const categoryPayload = useSelector(categorySelector);
   const employeePayload = useSelector(employeeSelector);
   const revenuePayload = useSelector(revenueSelector);
+  const profilePayload = useSelector(profileSelector);
 
   useEffect(() => {
     if (productPayload.notification) {
@@ -72,11 +76,21 @@ const App: React.FC = () => {
       }
       dispatch(clearStatusEmployee());
     }
+    if (profilePayload.notification) {
+      const { type, message } = profilePayload.notification;
+      if (type === NotificationConstant.SUCCESS) {
+        toaster.success({ text: message });
+      } else if (type === NotificationConstant.ERROR) {
+        toaster.error({ text: message });
+      }
+      dispatch(clearStatusProfile());
+    }
   }, [
     categoryPayload.notification,
     dispatch,
     employeePayload.notification,
     productPayload.notification,
+    profilePayload.notification,
     revenuePayload.notification,
   ]);
 
@@ -85,7 +99,8 @@ const App: React.FC = () => {
       {(productPayload.loading ||
         categoryPayload.loading ||
         employeePayload.loading ||
-        revenuePayload.loading) && <Loading />}
+        revenuePayload.loading ||
+        profilePayload.loading) && <Loading />}
       <Routes>
         <Route path="/">
           <Route element={<RequireAuth />}>
@@ -104,6 +119,9 @@ const App: React.FC = () => {
                 <Route index element={<Employee />} />
                 <Route path="new" element={<CreateEmployee />} />
                 <Route path="view/:id" element={<ViewEmployee />} />
+              </Route>
+              <Route path="profile">
+                <Route index element={<Profile />} />
               </Route>
             </Route>
           </Route>

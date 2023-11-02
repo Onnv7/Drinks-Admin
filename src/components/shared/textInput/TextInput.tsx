@@ -9,6 +9,7 @@ type Props = {
   value?: string;
   errorMessage?: string;
   onChange?: (e: any) => void;
+  readOnly?: boolean;
 };
 
 const TextInput: React.FC<Props> = (props) => {
@@ -20,6 +21,7 @@ const TextInput: React.FC<Props> = (props) => {
     value,
     onChange,
     errorMessage,
+    readOnly,
     ...inputProps
   } = props;
 
@@ -36,6 +38,7 @@ const TextInput: React.FC<Props> = (props) => {
         placeholder={placeHolderText}
         value={value}
         onChange={onChange}
+        readOnly={readOnly}
         {...inputProps}
       />
       {errorMessage?.length! > 0 ? (

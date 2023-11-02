@@ -83,7 +83,7 @@ const Dashboard = () => {
             <div className="dashboardRevenueTag">
               <RevenueTag
                 title={"Revenue today"}
-                content={`${revenueToday?.revenue}`}
+                content={`$${revenueToday?.revenue}`}
                 subContent={`${revenueToday?.ratio}%`}
                 subContentColor={
                   revenueToday?.ratio && revenueToday?.ratio < 0
@@ -97,7 +97,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="dashboardRevenueChart">
-          <Chart title="Revenue chart" aspect={2 / 1} />
+          <Chart title="Revenue chart" aspect={4 / 1} />
         </div>
       </div>
     </div>

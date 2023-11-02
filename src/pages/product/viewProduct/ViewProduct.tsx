@@ -5,6 +5,7 @@ import FormViewProduct from "../../../components/product/viewProduct/formViewPro
 
 import { useAppDispatch } from "../../../services/redux/useTypedSelector";
 import { getProductDetailsById } from "../../../services/redux/slices/product.slice";
+import { selectItemBar } from "../../../services/redux/slices/sidebar.slice";
 
 const ViewProduct: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -14,6 +15,7 @@ const ViewProduct: React.FC = () => {
   useEffect(() => {
     const loadData = async () => {
       await dispatch(getProductDetailsById(id!));
+      dispatch(selectItemBar("product"));
     };
 
     loadData();

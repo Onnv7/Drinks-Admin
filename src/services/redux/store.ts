@@ -1,17 +1,21 @@
 import { configureStore } from "@reduxjs/toolkit";
-import loginSlice from "./slices/login.slice";
+import authSlice from "./slices/auth.slice";
 import categorySlice from "./slices/category.slice";
 import productSlice from "./slices/product.slice";
 import employeeSlice from "./slices/employee.slice";
 import revenueSlice from "./slices/revenue.slice";
+import sidebarSlice from "./slices/sidebar.slice";
+import profileSlice from "./slices/profile.slice";
 
 const store = configureStore({
   reducer: {
-    login: loginSlice,
+    login: authSlice,
     category: categorySlice,
     product: productSlice,
     employee: employeeSlice,
     revenue: revenueSlice,
+    sidebar: sidebarSlice,
+    profile: profileSlice,
   },
 });
 

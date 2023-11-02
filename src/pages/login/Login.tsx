@@ -4,7 +4,7 @@ import "./login.scss";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-import { login } from "../../services/redux/slices/login.slice";
+import { login } from "../../services/redux/slices/auth.slice";
 import { useSelector } from "react-redux";
 
 import { ILoginReq } from "../../interfaces/request/auth.request";
@@ -40,11 +40,11 @@ const Login: React.FC = () => {
     else if (loginState.error === null && loginState.loginRes !== null) {
       const data = loginState.loginRes;
       setAuth({
-        userId: data.userId,
+        userId: data.employeeId,
         accessToken: data.accessToken,
       });
       if (loginRes?.accessToken !== null) {
-        storageManager.setUserId(data.userId!);
+        storageManager.setUserId(data.employeeId!);
         storageManager.setToken(data.accessToken!);
       }
       toaster.success({ text: "Login successful" });
@@ -77,12 +77,6 @@ const Login: React.FC = () => {
   return (
     <div className="loginContainer">
       <ToastContainer />
-      {/* {loginState.loading && (
-        <div>
-          <img src="/assets/gif/loading.gif" alt="" />
-        </div>
-      )} */}
-
       <div className="cardForm">
         <div className="title">Sign in to Admin</div>
         <form>
