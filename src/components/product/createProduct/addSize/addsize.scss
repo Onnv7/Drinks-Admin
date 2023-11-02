@@ -35,5 +35,10 @@
       margin-left: 22px;
       font-size: (--normalFz);
     }
+    .addSizeErrorMessage {
+      color: red;
+      font-style: italic;
+      font-size: var(--smallFz);
+    }
   }
 }

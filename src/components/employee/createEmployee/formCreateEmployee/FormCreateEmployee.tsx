@@ -18,6 +18,8 @@ import { useAppDispatch } from "../../../../services/redux/useTypedSelector";
 import { creteEmployee } from "../../../../services/redux/slices/employee.slice";
 import { useSelector } from "react-redux";
 import { employeeSelector } from "../../../../services/redux/selecters/selector";
+import useValidator from "../../../../validators/useValidator";
+import { createEmployeeSchema } from "../../../../validators/EmployeeValidateSchema";
 
 const FormCreateEmployee: React.FC = () => {
   const initialItem = {
@@ -31,6 +33,7 @@ const FormCreateEmployee: React.FC = () => {
   const dispatch = useAppDispatch();
   const employeePayload = useSelector(employeeSelector);
   const [item, setItem] = useState(initialItem);
+  const { errors, validate } = useValidator(createEmployeeSchema);
 
   useEffect(() => {
     if (employeePayload.succeed) {
@@ -41,7 +44,14 @@ const FormCreateEmployee: React.FC = () => {
   const handleSubmit = async () => {
     // console.log(item);
 
-    await dispatch(creteEmployee(item));
+    const result = validate(item);
+    console.log(
+      "🚀 ~ file: FormCreateEmployee.tsx:48 ~ handleSubmit ~ result:",
+      result
+    );
+    if (result) {
+      await dispatch(creteEmployee(item));
+    }
   };
 
   const handleDateChange = (
@@ -76,6 +86,7 @@ const FormCreateEmployee: React.FC = () => {
           <TextInput
             height="48px"
             value={item.firstName}
+            errorMessage={errors.firstName}
             placeHolderText="Employee's first name"
             onChange={(e) => {
               setItem((prev) => {
@@ -91,6 +102,7 @@ const FormCreateEmployee: React.FC = () => {
             height="48px"
             value={item.lastName}
             placeHolderText="Employee's last name"
+            errorMessage={errors.lastName}
             onChange={(e) => {
               setItem((prev) => {
                 return {
@@ -141,17 +153,22 @@ const FormCreateEmployee: React.FC = () => {
           </div>
           <div className="formCreateEmployeeCalendar">
             <label className="employeeFieldTitle">Birth date: </label>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                views={["year", "month", "day"]}
-                className="custom-date-picker"
-                format="DD-MM-YYYY"
-                onChange={(
-                  value: any,
-                  context: PickerChangeHandlerContext<DateValidationError>
-                ) => handleDateChange(value, context)}
-              />
-            </LocalizationProvider>
+            <div className="formCreateEmployeeCalendarInput">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  views={["year", "month", "day"]}
+                  className="custom-date-picker"
+                  format="DD-MM-YYYY"
+                  onChange={(
+                    value: any,
+                    context: PickerChangeHandlerContext<DateValidationError>
+                  ) => handleDateChange(value, context)}
+                />
+              </LocalizationProvider>
+              {errors.birthDate && (
+                <span className="formCreateEmployeeCalendarErrorMessage">{`*${errors.birthDate}`}</span>
+              )}
+            </div>
           </div>
         </div>
 
@@ -161,6 +178,7 @@ const FormCreateEmployee: React.FC = () => {
             value={item.username}
             height="48px"
             placeHolderText="Username"
+            errorMessage={errors.username}
             onChange={(e) => {
               setItem((prev) => {
                 return {
@@ -178,6 +196,7 @@ const FormCreateEmployee: React.FC = () => {
             value={item.password}
             height="48px"
             placeHolderText="Password"
+            errorMessage={errors.password}
             onChange={(e) => {
               setItem((prev) => {
                 return {

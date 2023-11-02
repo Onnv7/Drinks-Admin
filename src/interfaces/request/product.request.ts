@@ -1,4 +1,3 @@
-import { IImage } from "../model/image";
 import { ISize } from "../model/size";
 import { ITopping } from "../model/topping";
 

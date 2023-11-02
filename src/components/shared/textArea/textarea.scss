@@ -17,4 +17,9 @@
       border: 1px solid var(--borderInputColor);
     }
   }
+  .textAreaErrorMessage {
+    color: red;
+    font-style: italic;
+    font-size: var(--smallFz);
+  }
 }

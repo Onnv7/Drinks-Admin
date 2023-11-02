@@ -1,0 +1,21 @@
+.revenueChartContainer {
+  flex: 4;
+  -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  padding: 10px;
+  color: gray;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+
+  .revenueChartTitle {
+    display: inline-block;
+    margin-bottom: 24px;
+    font-size: var(--mediumFz);
+    color: var(--brownDark);
+    font-weight: 600;
+  }
+
+  .revenueChartGrid {
+    stroke: rgb(228, 225, 225);
+  }
+}

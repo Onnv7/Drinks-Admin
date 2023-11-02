@@ -6,30 +6,45 @@ import { v4 as uuidv4 } from "uuid";
 import { ISize } from "../../../../interfaces/model/size";
 import TextInput from "../../../shared/textInput/TextInput";
 import ElevatedButton from "../../../shared/elevatedButton/ElevatedButton";
+import useValidator from "../../../../validators/useValidator";
+import { sizeSchema } from "../../../../validators/ProductValidateSchema";
 
 type Props = {
   value?: ISize[];
   onAddItem?: (item: ISize) => void;
   onDeleteItem?: (item: string) => void;
+
+  errorMessage?: string;
 };
 
 const AddSize: React.FC<Props> = (props) => {
-  const { value = [], onAddItem, onDeleteItem } = props;
-
-  const [sizeInfo, setSizeInfo] = useState<ISize | null>(null);
+  const { value = [], onAddItem, onDeleteItem, errorMessage } = props;
+  const initialSize = {
+    size: "",
+    price: NaN,
+  };
+  const [sizeInfo, setSizeInfo] = useState<ISize>({
+    size: "",
+    price: NaN,
+  });
   const [error, setError] = useState("");
+  const { errors, validate } = useValidator(sizeSchema);
 
   const onAddBtnClick = () => {
-    setError("");
-    if (value?.find((it) => it.size === sizeInfo?.size)) {
-      setSizeInfo(null);
-      setError(`Already have size ${sizeInfo?.size}`);
-      return;
+    const result = validate(sizeInfo!);
+
+    if (result) {
+      setError("");
+      if (value?.find((it) => it.size === sizeInfo?.size)) {
+        setSizeInfo(initialSize);
+        setError(`Already have size ${sizeInfo?.size}`);
+        return;
+      }
+      if (sizeInfo != null && onAddItem) {
+        onAddItem(sizeInfo);
+      }
+      setSizeInfo(initialSize);
     }
-    if (sizeInfo != null && onAddItem) {
-      onAddItem(sizeInfo);
-    }
-    setSizeInfo(null);
   };
 
   const onDeleteBtnClick = (size: string) => {
@@ -70,6 +85,7 @@ const AddSize: React.FC<Props> = (props) => {
                 size: (e.target as HTMLInputElement).value,
               } as ISize)
             }
+            errorMessage={errors.size}
           />
           <TextInput
             height="48px"
@@ -83,11 +99,17 @@ const AddSize: React.FC<Props> = (props) => {
                 price: parseFloat((e.target as HTMLInputElement).value),
               } as ISize)
             }
+            errorMessage={errors.price}
           />
           <div onClick={onAddBtnClick}>
             <ElevatedButton text="Add" />
           </div>
         </div>
+        {errorMessage?.length! > 0 ? (
+          <span className="addSizeErrorMessage">{`*${errorMessage}`}</span>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

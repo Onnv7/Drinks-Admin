@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Loading from "../../shared/loading/Loading";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-
 import TextInput from "../../shared/textInput/TextInput";
-import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../services/redux/useTypedSelector";
-import { categorySelector } from "../../../services/redux/selecters/selector";
+
 import ElevatedButton from "../../shared/elevatedButton/ElevatedButton";
 import "./updatecategorymodal.scss";
 import { ICategory } from "../../../interfaces/model/category";
@@ -13,7 +11,8 @@ import ImageUrlInput from "../../shared/imageUrlInput/ImageUrlInput";
 import { IUpdateCategoryReq } from "../../../interfaces/request/category.request";
 import { updateCategory } from "../../../services/redux/slices/category.slice";
 import DropList from "../../shared/dropList/DropList";
-import { toaster } from "../../../helper/toaster";
+import { updateCategorySchema } from "../../../validators/CategoryValidateSchema";
+import useValidator from "../../../validators/useValidator";
 
 type Props = {
   onClose: () => void;
@@ -22,7 +21,7 @@ type Props = {
 
 const UpdateCategoryModal: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
-  const categoryPayload = useSelector(categorySelector);
+  const { errors, validate } = useValidator(updateCategorySchema);
   const { onClose, category } = props;
 
   const [item, setItem] = useState<IUpdateCategoryReq>({
@@ -31,8 +30,11 @@ const UpdateCategoryModal: React.FC<Props> = (props) => {
   });
 
   const handleUpdateCategoryClick = async () => {
-    await dispatch(updateCategory({ category: item, id: category.id }));
-    onClose();
+    const result = validate(item);
+    if (result) {
+      await dispatch(updateCategory({ category: item, id: category.id }));
+      onClose();
+    }
   };
 
   return (
@@ -54,6 +56,7 @@ const UpdateCategoryModal: React.FC<Props> = (props) => {
                 }
               });
             }}
+            errorMessage={errors.image}
           />
         </div>
         <div className="viewCategoryModalName">
@@ -67,6 +70,7 @@ const UpdateCategoryModal: React.FC<Props> = (props) => {
                 return { ...prev, name: e.target.value };
               });
             }}
+            errorMessage={errors.name}
           />
         </div>
         <div className="viewCategoryModalStatus">
@@ -78,15 +82,6 @@ const UpdateCategoryModal: React.FC<Props> = (props) => {
               const status = category.enabled ? "Enable" : "Disable";
               return it === status;
             })}
-            // onChangeSelected={(index) => {
-            //   setItem((prev) => {
-            //     return {
-            //       ...prev,
-            //       enabled:
-            //         ["Enable", "Disable"][index] === "Enable" ? true : false,
-            //     };
-            //   });
-            // }}
             onChangeValue={(value: any) => {
               setItem((prev) => {
                 return {
@@ -99,7 +94,7 @@ const UpdateCategoryModal: React.FC<Props> = (props) => {
         </div>
 
         <ElevatedButton
-          text="Create Category"
+          text="Update Category"
           borderRadius={30}
           onClick={handleUpdateCategoryClick}
         />

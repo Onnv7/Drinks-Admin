@@ -12,12 +12,14 @@ import { useAppDispatch } from "../../services/redux/useTypedSelector";
 import { loginSelector } from "../../services/redux/selecters/selector";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import { toaster } from "../../helper/toaster";
-import { text } from "stream/consumers";
+
 import { storageManager } from "../../helper/storager";
+import useValidator from "../../validators/useValidator";
+import { loginSchema } from "../../validators/Auth";
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
   const { auth, setAuth } = useAuth();
@@ -26,6 +28,7 @@ const Login: React.FC = () => {
 
   const navigate = useNavigate();
   const loginState = useSelector(loginSelector);
+  const { errors, validate } = useValidator(loginSchema);
 
   useEffect(() => {
     const { loginRes } = loginState;
@@ -52,14 +55,20 @@ const Login: React.FC = () => {
   }, [auth, loginState, navigate, setAuth]);
 
   // event handlers =================================================================
-  const onLogin: MouseEventHandler<HTMLDivElement> = async (e) => {
+  const handleLogin: MouseEventHandler<HTMLDivElement> = async (e) => {
     e.preventDefault();
     try {
-      const data: ILoginReq = {
-        username: username,
-        password: password,
-      };
-      dispatch(login(data));
+      const result = validate({
+        username,
+        password,
+      });
+      if (result) {
+        const data: ILoginReq = {
+          username: username,
+          password: password,
+        };
+        dispatch(login(data));
+      }
     } catch (e) {
       console.log(e);
     }
@@ -101,7 +110,7 @@ const Login: React.FC = () => {
               placeholder="Password"
             />
           </div>
-          <div className="submitButton" onClick={onLogin}>
+          <div className="submitButton" onClick={handleLogin}>
             <input type="submit" className="loginButton" hidden />
             <div>Login</div>
           </div>

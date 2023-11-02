@@ -10,6 +10,9 @@ type Props = {
   indexValue?: number;
   // onChangeSelected?: (index: number) => void;
   onChangeValue?: (index: string) => void;
+  errorMessage?: string;
+  width?: string;
+  height?: string;
 };
 const DropList: React.FC<Props> = (props) => {
   const {
@@ -19,6 +22,9 @@ const DropList: React.FC<Props> = (props) => {
     // onChangeSelected,
     onChangeValue,
     values,
+    errorMessage,
+    width = "100%",
+    height,
   } = props;
   const [openOption, setOpenOption] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(indexSelected);
@@ -36,9 +42,12 @@ const DropList: React.FC<Props> = (props) => {
   useEffect(() => {
     setSelectedIndex(indexSelected);
   }, [indexSelected]);
-
+  const containerStyle = {
+    width: width,
+    height: height,
+  };
   return (
-    <div className="dropListContainer">
+    <div className="dropListContainer" style={containerStyle}>
       <div
         className="dropListHeader"
         onClick={() => setOpenOption(!openOption)}
@@ -50,6 +59,11 @@ const DropList: React.FC<Props> = (props) => {
         </div>
         {openOption ? <ArrowDropUpRoundedIcon /> : <ArrowDropDownRoundedIcon />}
       </div>
+      {errorMessage?.length! > 0 ? (
+        <span className="dropListErrorMessage">{`*${errorMessage}`}</span>
+      ) : (
+        <></>
+      )}
       {openOption && (
         <div className="dropListBody">
           <div className="dropListElements">

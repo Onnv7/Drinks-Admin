@@ -4,10 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 import ImageInput from "../../../shared/imageInput/ImageInput";
 const AddImage: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const fi = e.target?.files?.[0] ? e.target?.files?.[0] : null;
-    if (fi !== null) {
-      setFiles([...files, fi]);
+  const onChange = (file: File | null) => {
+    if (file !== null) {
+      setFiles([...files, file]);
     }
   };
   return (
@@ -15,7 +14,7 @@ const AddImage: React.FC = () => {
       {files.map((it) => {
         return <ImageInput key={uuidv4()} file={it} />;
       })}
-      <ImageInput onChange={onChange} />
+      <ImageInput onChangeFile={onChange} />
     </div>
   );
 };

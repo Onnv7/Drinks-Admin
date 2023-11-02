@@ -3,7 +3,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 import "./producttable.scss";
 import ElevatedButton from "../../shared/elevatedButton/ElevatedButton";
-import { IProduct } from "../../../interfaces/model/product";
+
 import { IGetAllProductsReq } from "../../../interfaces/request/product.request";
 import OutLineButton from "../../shared/outlineButton/OutLineButton";
 import { Link } from "react-router-dom";

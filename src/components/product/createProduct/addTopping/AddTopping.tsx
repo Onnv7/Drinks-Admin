@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import { ITopping } from "../../../../interfaces/model/topping";
 import TextInput from "../../../shared/textInput/TextInput";
 import ElevatedButton from "../../../shared/elevatedButton/ElevatedButton";
+import { toppingSchema } from "../../../../validators/ProductValidateSchema";
+import useValidator from "../../../../validators/useValidator";
 
 type Props = {
   value?: ITopping[];
@@ -15,12 +17,27 @@ type Props = {
 
 const AddTopping: React.FC<Props> = (props) => {
   const { value = [], onAddItem, onDeleteItem } = props;
-
-  const [toppingInfo, setToppingInfo] = useState<ITopping | null>(null);
+  const initialTopping = {
+    name: "",
+    price: NaN,
+  };
+  const [toppingInfo, setToppingInfo] = useState<ITopping>(initialTopping);
   const [error, setError] = useState("");
+  const { errors, validate } = useValidator(toppingSchema);
   const onAddBtnClick = () => {
+    const result = validate(toppingInfo!);
+    console.log(
+      "🚀 ~ file: AddTopping.tsx:26 ~ onAddBtnClick ~ result:",
+      result,
+      errors
+    );
+
+    if (!result) {
+      return;
+    }
+
     if (value.find((it) => it.name === toppingInfo?.name)) {
-      setToppingInfo(null);
+      setToppingInfo(initialTopping);
       setError(`Already have topping ${toppingInfo?.name}`);
       return;
     }
@@ -29,7 +46,7 @@ const AddTopping: React.FC<Props> = (props) => {
       onAddItem(toppingInfo);
     }
 
-    setToppingInfo(null);
+    setToppingInfo(initialTopping);
   };
 
   const onDeleteBtnClick = (name: string) => {
@@ -69,6 +86,7 @@ const AddTopping: React.FC<Props> = (props) => {
                 name: (e.target as HTMLInputElement).value,
               } as ITopping)
             }
+            errorMessage={errors.name}
           />
           <TextInput
             height="48px"
@@ -82,6 +100,7 @@ const AddTopping: React.FC<Props> = (props) => {
                 price: parseFloat((e.target as HTMLInputElement).value),
               } as ITopping)
             }
+            errorMessage={errors.price}
           />
           <div className="btnAdd" onClick={onAddBtnClick}>
             <ElevatedButton text="Add" />

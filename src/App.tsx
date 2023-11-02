@@ -16,6 +16,7 @@ import {
   categorySelector,
   employeeSelector,
   productSelector,
+  revenueSelector,
 } from "./services/redux/selecters/selector";
 import { toaster } from "./helper/toaster";
 import { NotificationConstant } from "./interfaces/model/notification";
@@ -25,12 +26,14 @@ import Loading from "./components/shared/loading/Loading";
 import CreateEmployee from "./pages/employee/createEmployee/CreateEmployee";
 import ViewEmployee from "./pages/employee/viewEmployee/ViewEmployee";
 import { clearStatusEmployee } from "./services/redux/slices/employee.slice";
+import ChangePasswordEmployeeModal from "./components/employee/viewEmployee/changePassword/ChangePasswordEmployeeModal";
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
   const productPayload = useSelector(productSelector);
   const categoryPayload = useSelector(categorySelector);
   const employeePayload = useSelector(employeeSelector);
+  const revenuePayload = useSelector(revenueSelector);
 
   useEffect(() => {
     if (productPayload.notification) {
@@ -60,18 +63,29 @@ const App: React.FC = () => {
       }
       dispatch(clearStatusEmployee());
     }
+    if (revenuePayload.notification) {
+      const { type, message } = revenuePayload.notification;
+      if (type === NotificationConstant.SUCCESS) {
+        toaster.success({ text: message });
+      } else if (type === NotificationConstant.ERROR) {
+        toaster.error({ text: message });
+      }
+      dispatch(clearStatusEmployee());
+    }
   }, [
     categoryPayload.notification,
     dispatch,
     employeePayload.notification,
     productPayload.notification,
+    revenuePayload.notification,
   ]);
 
   return (
     <div className="app">
       {(productPayload.loading ||
         categoryPayload.loading ||
-        employeePayload.loading) && <Loading />}
+        employeePayload.loading ||
+        revenuePayload.loading) && <Loading />}
       <Routes>
         <Route path="/">
           <Route element={<RequireAuth />}>
@@ -95,7 +109,10 @@ const App: React.FC = () => {
           </Route>
         </Route>
         <Route path="login" element={<Login />} />
-        <Route path="test" element={<Outlet />} />
+        <Route
+          path="test"
+          element={<ChangePasswordEmployeeModal onClose={() => {}} />}
+        />
       </Routes>
     </div>
   );

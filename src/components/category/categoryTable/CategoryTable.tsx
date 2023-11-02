@@ -1,26 +1,17 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useState } from "react";
 
 import "./categorytable.scss";
 
 import { useAppDispatch } from "../../../services/redux/useTypedSelector";
-import {
-  clearStatusCategory,
-  deleteCategory,
-} from "../../../services/redux/slices/category.slice";
+import { deleteCategory } from "../../../services/redux/slices/category.slice";
 import ModalYesNo from "../../shared/modalYesNo/ModalYesNo";
-import { useSelector } from "react-redux";
-import { categorySelector } from "../../../services/redux/selecters/selector";
-import Loading from "../../shared/loading/Loading";
 import UpdateCategoryModal from "../updateCategoryModal/UpdateCategoryModal";
 import { ICategory } from "../../../interfaces/model/category";
 import OutLineButton from "../../shared/outlineButton/OutLineButton";
 import ElevatedButton from "../../shared/elevatedButton/ElevatedButton";
-import { toaster } from "../../../helper/toaster";
 import { ColorConstants } from "../../../constants/ColorConstant";
-import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 type Props = {
   categoryList?: ICategory[];
@@ -28,7 +19,6 @@ type Props = {
 
 const CategoryTable: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
-  const categoryPayload = useSelector(categorySelector);
   const { categoryList: category = [] } = props;
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);

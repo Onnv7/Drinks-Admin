@@ -1,0 +1,35 @@
+.dashboardContainer {
+  .dashboardHeader {
+    .dashboardTitle {
+      margin: 12px 0px;
+      text-align: center;
+      font-size: 32px;
+      font-weight: bold;
+      color: var(--primaryColor);
+    }
+  }
+  .dashboardBody {
+    margin: 0 24px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    .dashboardRevenueStatistic {
+      .dashboardRevenueStatisticTitle {
+        padding-top: 12px;
+        font-weight: 600;
+        color: var(--brownDark);
+        margin-left: 24px;
+        font-size: var(--mediumFz);
+      }
+      .dashboardRevenueStatisticContent {
+        display: flex;
+        .dashboardRevenueTag {
+          margin: 12px;
+        }
+      }
+    }
+
+    .dashboardRevenueChart {
+      padding: 24px 12px;
+    }
+  }
+}

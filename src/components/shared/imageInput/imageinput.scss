@@ -51,4 +51,9 @@
       right: 8px;
     }
   }
+  .imageInputErrorMessage {
+    color: red;
+    font-style: italic;
+    font-size: var(--smallFz);
+  }
 }

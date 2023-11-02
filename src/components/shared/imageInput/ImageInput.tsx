@@ -7,15 +7,17 @@ type Props = {
   width?: string;
   pathValue?: string;
   file?: File | null;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChangeFile?: (file: File | null) => void;
+  errorMessage?: string;
 };
 
 const ImageInput: React.FC<Props> = (props) => {
   const {
     height = "300px",
     width = "300px",
-    onChange,
+    onChangeFile,
     file, // dùng cho trường hợp nhiều ảnh = true
+    errorMessage,
   } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -26,12 +28,12 @@ const ImageInput: React.FC<Props> = (props) => {
     inputRef.current?.click();
   };
 
-  const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const fi = e.target?.files?.[0] ? e.target?.files?.[0] : null;
 
     if (fi) {
-      if (onChange) {
-        onChange(e);
+      if (onChangeFile) {
+        onChangeFile(fi);
       }
 
       setFileName(fi.name);
@@ -44,6 +46,9 @@ const ImageInput: React.FC<Props> = (props) => {
     setFileName("No selected file");
     if (inputRef && inputRef.current) {
       inputRef.current.value = "";
+    }
+    if (onChangeFile) {
+      onChangeFile(null);
     }
   };
 
@@ -75,7 +80,7 @@ const ImageInput: React.FC<Props> = (props) => {
         accept="image/*"
         className="imageFile"
         title="Upload"
-        onChange={onChangeFile}
+        onChange={onChange}
         hidden
       />
       <div
@@ -97,6 +102,11 @@ const ImageInput: React.FC<Props> = (props) => {
           </i>
         )}
       </div>
+      {errorMessage?.length! > 0 ? (
+        <span className="imageInputErrorMessage">{`*${errorMessage}`}</span>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

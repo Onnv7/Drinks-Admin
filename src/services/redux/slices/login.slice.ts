@@ -25,7 +25,6 @@ export const login = createAsyncThunk(
       const { data: response } = await AuthApi.login(body);
       return response.data;
     } catch (error: unknown) {
-      console.error(error);
       if (error instanceof AxiosError) {
         let msg = "Authentication failed";
         return thunkAPI.rejectWithValue(msg);

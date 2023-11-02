@@ -8,6 +8,7 @@ type Props = {
   url: string | null;
   isClearAfterUpload?: boolean;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  errorMessage?: string;
 };
 const ImageUrlInput: React.FC<Props> = (props) => {
   const {
@@ -16,6 +17,7 @@ const ImageUrlInput: React.FC<Props> = (props) => {
     width = 300,
     onChange,
     isClearAfterUpload,
+    errorMessage,
   } = props;
 
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -53,7 +55,7 @@ const ImageUrlInput: React.FC<Props> = (props) => {
     width: width,
   };
   return (
-    <div className="imageInputContainer">
+    <div className="imageUrlInputContainer">
       <input
         id="file-input"
         ref={inputRef}
@@ -65,15 +67,19 @@ const ImageUrlInput: React.FC<Props> = (props) => {
         hidden
       />
       <div
-        className="imageSelect"
+        className="imageUrlInputSelect"
         onClick={() => inputRef.current?.click()}
         style={stylePreviewImage}
       >
         {url && !imagePath ? (
-          <img className="previewImage" src={url} alt="Thumbnail product" />
+          <img
+            className="imageUrlInputPreview"
+            src={url}
+            alt="Thumbnail product"
+          />
         ) : imagePath ? (
           <img
-            className="previewImage"
+            className="imageUrlInputPreview"
             src={imagePath}
             alt="Thumbnail product"
           />
@@ -81,7 +87,7 @@ const ImageUrlInput: React.FC<Props> = (props) => {
           <img src="/assets/image/icon-upload-image.png" alt="" />
         )}
       </div>
-      <div className="desImage" style={styleDesImage}>
+      <div className="imageUrlInputDes" style={styleDesImage}>
         <div className="fileName">{fileName}</div>
         {imagePath && (
           <i className="iconDelete" onClick={onClickRemoveImage}>
@@ -89,6 +95,11 @@ const ImageUrlInput: React.FC<Props> = (props) => {
           </i>
         )}
       </div>
+      {errorMessage?.length! > 0 ? (
+        <span className="imageUrlInputErrorMessage">{`*${errorMessage}`}</span>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

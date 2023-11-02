@@ -21,15 +21,17 @@ import AddTopping from "../../createProduct/addTopping/AddTopping";
 
 import { useParams } from "react-router-dom";
 import ImageUrlInput from "../../../shared/imageUrlInput/ImageUrlInput";
+import { updateProductSchema } from "../../../../validators/ProductValidateSchema";
+import useValidator from "../../../../validators/useValidator";
 
 const FormViewProduct: React.FC = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const categoryPayload = useSelector(categorySelector);
   const productPayload = useSelector(productSelector);
+  const { errors, validate } = useValidator(updateProductSchema);
 
   const [rawImage, setRawImage] = useState("");
-  const [indexCategory, setIndexCategory] = useState<number>(-1);
 
   useEffect(() => {
     dispatch(getAllCategory());
@@ -87,7 +89,10 @@ const FormViewProduct: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    await dispatch(updateProduct({ product: item, id: id! }));
+    const result = validate(item);
+    if (result) {
+      await dispatch(updateProduct({ product: item, id: id! }));
+    }
   };
 
   return (
@@ -108,6 +113,7 @@ const FormViewProduct: React.FC = () => {
                 };
               });
             }}
+            errorMessage={errors.name}
           />
         </div>
         <div className="productEnable formViewProductField">
@@ -119,6 +125,7 @@ const FormViewProduct: React.FC = () => {
             indexSelected={item.enabled ? 0 : 1}
             values={[true, false]}
             onChangeValue={handleChangeStatus}
+            errorMessage={errors.categoryId}
           />
         </div>
 
@@ -130,6 +137,7 @@ const FormViewProduct: React.FC = () => {
             width="300px"
             onChange={handleChangeImage}
             url={rawImage}
+            errorMessage={errors.image}
           />
         </div>
 
@@ -153,6 +161,7 @@ const FormViewProduct: React.FC = () => {
                 };
               });
             }}
+            errorMessage={errors.sizeList}
           />
         </div>
 
@@ -191,6 +200,7 @@ const FormViewProduct: React.FC = () => {
             )}
             values={categoryPayload.categories.map((it) => it.id) ?? []}
             onChangeValue={handleChangeCategory}
+            errorMessage={errors.categoryId}
           />
         </div>
 
@@ -210,6 +220,7 @@ const FormViewProduct: React.FC = () => {
                   };
                 });
               }}
+              errorMessage={errors.description}
             />
           </div>
         </div>

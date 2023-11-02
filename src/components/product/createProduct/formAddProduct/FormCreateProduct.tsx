@@ -13,19 +13,20 @@ import {
 import { ICreateProductReq } from "../../../../interfaces/request/product.request";
 import { getAllCategory } from "../../../../services/redux/slices/category.slice";
 import { createProduct } from "../../../../services/redux/slices/product.slice";
-import { toaster } from "../../../../helper/toaster";
-import Loading from "../../../shared/loading/Loading";
 import DropList from "../../../shared/dropList/DropList";
 import ElevatedButton from "../../../shared/elevatedButton/ElevatedButton";
 import ImageInput from "../../../shared/imageInput/ImageInput";
 import TextArea from "../../../shared/textArea/TextArea";
 import TextInput from "../../../shared/textInput/TextInput";
+import useValidator from "../../../../validators/useValidator";
+import { createProductSchema } from "../../../../validators/ProductValidateSchema";
 
 const FormCreateProduct: React.FC = () => {
   const dispatch = useAppDispatch();
   const categoryPayload = useSelector(categorySelector);
   const productPayload = useSelector(productSelector);
   const [indexCategory, setIndexCategory] = useState<number | undefined>();
+  const { errors, validate } = useValidator(createProductSchema);
 
   const initialItem = {
     name: "",
@@ -36,6 +37,7 @@ const FormCreateProduct: React.FC = () => {
     categoryId: "",
   } as ICreateProductReq;
   const [item, setItem] = useState<ICreateProductReq>(initialItem);
+
   useEffect(() => {
     if (productPayload.succeed) {
       // Gọi hàm khi succeed thay đổi
@@ -54,17 +56,28 @@ const FormCreateProduct: React.FC = () => {
       return { ...prev, categoryId: value };
     });
   };
-  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
-    const fi = e.target?.files?.[0] ? e.target?.files?.[0] : null;
-    if (fi !== null) {
-      setItem((prev) => {
-        return { ...prev, image: fi };
-      });
-    }
+  const handleChangeImage = (file: File | null) => {
+    setItem((prev) => {
+      return { ...prev, image: file };
+    });
   };
 
   const handleSubmit = async () => {
-    await dispatch(createProduct(item));
+    // const createProductData = (data: ICreateProductReq) => {
+    //   return {
+    //     name: data.name,
+    //     description: data.description,
+    //     categoryId: data.categoryId,
+    //     sizeList: data.sizeList.map((size) => ({
+    //       name: size.price,
+    //       price: size.price,
+    //     })),
+    //   };
+    // };
+    const result = validate(item);
+    if (result) {
+      await dispatch(createProduct(item));
+    }
   };
 
   const handleClearData = () => {
@@ -82,6 +95,7 @@ const FormCreateProduct: React.FC = () => {
             value={item.name}
             height="48px"
             placeHolderText="Product's name"
+            errorMessage={errors.name}
             onChange={(e) => {
               setItem((prev) => {
                 return {
@@ -99,7 +113,8 @@ const FormCreateProduct: React.FC = () => {
             file={item.image}
             height="300px"
             width="300px"
-            onChange={handleChangeImage}
+            onChangeFile={handleChangeImage}
+            errorMessage={errors.image}
           />
         </div>
 
@@ -107,6 +122,7 @@ const FormCreateProduct: React.FC = () => {
           <label className="productFieldTitle">Size: </label>
           <AddSize
             value={item.sizeList}
+            errorMessage={errors.sizeList}
             onAddItem={(it) => {
               setItem((prev) => {
                 return {
@@ -160,6 +176,7 @@ const FormCreateProduct: React.FC = () => {
             // onChangeSelected={handleChangeCategory}
             indexSelected={indexCategory}
             onChangeValue={handleChangeCategory}
+            errorMessage={errors.categoryId}
           />
         </div>
 
@@ -171,6 +188,7 @@ const FormCreateProduct: React.FC = () => {
               placeHolder="Write description..."
               width="100%"
               height="200px"
+              errorMessage={errors.description}
               onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
                 setItem((prev) => {
                   return {

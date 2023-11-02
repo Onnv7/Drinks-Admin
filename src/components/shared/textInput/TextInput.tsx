@@ -1,4 +1,4 @@
-import React, { ChangeEvent, memo } from "react";
+import React, { memo } from "react";
 import "./textinput.scss";
 
 type Props = {
@@ -7,6 +7,7 @@ type Props = {
   placeHolderText?: string;
   type?: string;
   value?: string;
+  errorMessage?: string;
   onChange?: (e: any) => void;
 };
 
@@ -18,6 +19,8 @@ const TextInput: React.FC<Props> = (props) => {
     type = "text",
     value,
     onChange,
+    errorMessage,
+    ...inputProps
   } = props;
 
   const style = {
@@ -33,7 +36,13 @@ const TextInput: React.FC<Props> = (props) => {
         placeholder={placeHolderText}
         value={value}
         onChange={onChange}
+        {...inputProps}
       />
+      {errorMessage?.length! > 0 ? (
+        <span className="textInputErrorMessage">{`*${errorMessage}`}</span>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

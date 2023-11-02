@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import "./product.scss";
 import { Link } from "react-router-dom";
 import ProductTable from "../../components/product/table/ProductTable";
-import { IProduct } from "../../interfaces/product";
 import OutLineButton from "../../components/shared/outlineButton/OutLineButton";
 import { RouteConstants } from "../../constants/RouteConstant";
 import { useAppDispatch } from "../../services/redux/useTypedSelector";

@@ -1,0 +1,32 @@
+.revenueTagContainer {
+  display: flex;
+  .revenueTagCard {
+    position: relative;
+    width: 200px;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    .revenueTagTitle {
+      font-size: var(--mediumFz);
+      font-style: italic;
+      margin-bottom: 12px;
+    }
+    .revenueTagBody {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .revenueTagContent {
+        .revenueTagText {
+          padding: 12px 0;
+          font-size: var(--largeFz);
+        }
+      }
+      .revenueTagDifference {
+        top: 12px;
+        right: 12px;
+        position: absolute;
+        font-style: italic;
+      }
+    }
+  }
+}

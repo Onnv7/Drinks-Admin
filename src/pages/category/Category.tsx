@@ -4,13 +4,9 @@ import OutLineButton from "../../components/shared/outlineButton/OutLineButton";
 import CategoryTable from "../../components/category/categoryTable/CategoryTable";
 import CreateCategoryModal from "../../components/category/createCategoryModal/CreateCategoryModal";
 import { useAppDispatch } from "../../services/redux/useTypedSelector";
-import {
-  clearStatusCategory,
-  getAllCategory,
-} from "../../services/redux/slices/category.slice";
+import { getAllCategory } from "../../services/redux/slices/category.slice";
 import { useSelector } from "react-redux";
 import { categorySelector } from "../../services/redux/selecters/selector";
-import Loading from "../../components/shared/loading/Loading";
 
 const Category: React.FC = () => {
   const dispatch = useAppDispatch();

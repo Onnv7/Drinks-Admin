@@ -1,6 +1,6 @@
 .textInputContainer {
   box-sizing: border-box;
-  display: flex;
+  // display: flex;
   .textInput {
     border: 1px solid #faf2f2; //#faf2f2
     border-radius: 8px;
@@ -15,5 +15,10 @@
       background-color: white;
       border: 1px solid var(--borderInputColor);
     }
+  }
+  .textInputErrorMessage {
+    color: red;
+    font-style: italic;
+    font-size: var(--smallFz);
   }
 }

@@ -5,7 +5,6 @@ import Inventory2TwoToneIcon from "@mui/icons-material/Inventory2TwoTone";
 import CategoryTwoToneIcon from "@mui/icons-material/CategoryTwoTone";
 import Groups2TwoToneIcon from "@mui/icons-material/Groups2TwoTone";
 import { Link } from "react-router-dom";
-import Dashboard from "../../../pages/dashboard/Dashboard";
 
 const SideBar: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState("dashboard");

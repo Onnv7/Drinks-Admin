@@ -41,6 +41,15 @@
       .formViewEmployeeCalendar {
         flex: 1;
         display: flex;
+        .formViewEmployeeCalendarInput {
+          display: flex;
+          flex-direction: column;
+          .formViewEmployeeCalendarErrorMessage {
+            color: red;
+            font-style: italic;
+            font-size: var(--smallFz);
+          }
+        }
       }
     }
 

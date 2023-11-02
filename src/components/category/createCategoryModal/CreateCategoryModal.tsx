@@ -9,6 +9,8 @@ import { createCategory } from "../../../services/redux/slices/category.slice";
 import { ICreateCategoryReq } from "../../../interfaces/request/category.request";
 import { useSelector } from "react-redux";
 import { categorySelector } from "../../../services/redux/selecters/selector";
+import useValidator from "../../../validators/useValidator";
+import { createCategorySchema } from "../../../validators/CategoryValidateSchema";
 
 type Props = {
   onClose: () => void;
@@ -20,14 +22,18 @@ const CreateCategoryModal: React.FC<Props> = (props) => {
   const { onClose } = props;
   const [name, setName] = useState("");
   const [image, setImage] = useState<File | null>(null);
+  const { errors, validate } = useValidator(createCategorySchema);
 
   const onCreateCategory = async () => {
-    await dispatch(
-      createCategory({
-        name: name,
-        image: image,
-      } as ICreateCategoryReq)
-    );
+    const result = validate({ name, image });
+    if (result) {
+      await dispatch(
+        createCategory({
+          name: name,
+          image: image,
+        } as ICreateCategoryReq)
+      );
+    }
   };
 
   useEffect(() => {
@@ -35,6 +41,11 @@ const CreateCategoryModal: React.FC<Props> = (props) => {
       onClose();
     }
   }, [categoryPayload.succeed, onClose]);
+
+  // event handlers =================================================================
+  const onChangeFile = (file: File | null) => {
+    setImage(file);
+  };
   return (
     <div className="createCategoryModalContainer">
       {/* {categoryPayload.loading && <Loading />} */}
@@ -45,7 +56,8 @@ const CreateCategoryModal: React.FC<Props> = (props) => {
         <div className="createCategoryThumbnailModal">
           <ImageInput
             file={image}
-            onChange={(e) => setImage(e.target.files![0])}
+            onChangeFile={onChangeFile}
+            errorMessage={errors.image}
           />
         </div>
         <div className="createCategoryModalName">
@@ -55,6 +67,7 @@ const CreateCategoryModal: React.FC<Props> = (props) => {
             placeHolderText="Category name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            errorMessage={errors.name}
           />
         </div>
         <ElevatedButton

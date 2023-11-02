@@ -7,10 +7,11 @@ type Props = {
   height?: string;
   onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   value?: string;
+  errorMessage?: string;
 };
 
 const TextArea: React.FC<Props> = (props) => {
-  const { width, height, placeHolder, onChange, value } = props;
+  const { width, height, placeHolder, onChange, value, errorMessage } = props;
 
   const textAreaStyle = {
     width: width,
@@ -25,6 +26,11 @@ const TextArea: React.FC<Props> = (props) => {
         onChange={onChange}
         value={value}
       />
+      {errorMessage?.length! > 0 ? (
+        <span className="textAreaErrorMessage">{`*${errorMessage}`}</span>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

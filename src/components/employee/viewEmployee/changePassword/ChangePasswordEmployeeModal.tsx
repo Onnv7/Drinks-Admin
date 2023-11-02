@@ -9,18 +9,28 @@ import { changePassword } from "../../../../services/redux/slices/employee.slice
 import { useSelector } from "react-redux";
 import { employeeSelector } from "../../../../services/redux/selecters/selector";
 import { IChangePasswordReq } from "../../../../interfaces/request/employee.request";
-
+import { ZodType, z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { changeEmployeePasswordSchema } from "../../../../validators/EmployeeValidateSchema";
+import useValidator from "../../../../validators/useValidator";
 type Props = {
   onClose: () => void;
   onCloseWhenClickOutSite?: boolean;
   onSubmit?: () => void;
 };
+
+interface ITest {
+  password: string;
+  rePassword: string;
+}
 const ChangePasswordEmployeeModal: React.FC<Props> = (props) => {
   const { onClose, onCloseWhenClickOutSite = false, onSubmit } = props;
   const dispatch = useAppDispatch();
   const employeePayload = useSelector(employeeSelector);
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
+  const { errors, validate } = useValidator(changeEmployeePasswordSchema);
 
   useEffect(() => {
     if (employeePayload.succeed) {
@@ -30,13 +40,17 @@ const ChangePasswordEmployeeModal: React.FC<Props> = (props) => {
   // event handlers =================================================================
 
   const handleChangePassword = async () => {
-    await dispatch(
-      changePassword({
-        id: employeePayload.viewEmployee?.id!,
-        body: { password: password },
-      })
-    );
+    const result = validate({ password, rePassword });
+    if (result) {
+      await dispatch(
+        changePassword({
+          id: employeePayload.viewEmployee?.id!,
+          body: { password: password },
+        })
+      );
+    }
   };
+
   return (
     <div
       className="changePwdEmplContainer"
@@ -60,6 +74,7 @@ const ChangePasswordEmployeeModal: React.FC<Props> = (props) => {
               height="40px"
               placeHolderText="Enter new password"
               value={password}
+              errorMessage={errors.password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
@@ -70,6 +85,7 @@ const ChangePasswordEmployeeModal: React.FC<Props> = (props) => {
               height="40px"
               placeHolderText="Re-Enter password"
               value={rePassword}
+              errorMessage={errors.rePassword}
               onChange={(e) => setRePassword(e.target.value)}
             />
           </div>

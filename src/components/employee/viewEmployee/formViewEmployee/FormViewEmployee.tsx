@@ -6,10 +6,7 @@ import "react-calendar/dist/Calendar.css";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import RadioInput from "../../../shared/radioInput/RadioInput";
-import {
-  ICreateEmployeeReq,
-  IUpdateEmployeeReq,
-} from "../../../../interfaces/request/employee.request";
+import { IUpdateEmployeeReq } from "../../../../interfaces/request/employee.request";
 import { Gender } from "../../../../enums/Gender";
 import {
   DatePicker,
@@ -18,17 +15,15 @@ import {
 } from "@mui/x-date-pickers";
 import { useAppDispatch } from "../../../../services/redux/useTypedSelector";
 
-import {
-  changePassword,
-  creteEmployee,
-  updateEmployee,
-} from "../../../../services/redux/slices/employee.slice";
+import { updateEmployee } from "../../../../services/redux/slices/employee.slice";
 import { useSelector } from "react-redux";
 import { employeeSelector } from "../../../../services/redux/selecters/selector";
 import dayjs from "dayjs";
 import OutLineButton from "../../../shared/outlineButton/OutLineButton";
 import DropList from "../../../shared/dropList/DropList";
 import ChangePasswordEmployeeModal from "../changePassword/ChangePasswordEmployeeModal";
+import { updateEmployeeSchema } from "../../../../validators/EmployeeValidateSchema";
+import useValidator from "../../../../validators/useValidator";
 
 const FormViewEmployee = () => {
   const initialItem = {
@@ -44,6 +39,7 @@ const FormViewEmployee = () => {
   const dispatch = useAppDispatch();
 
   const employeePayload = useSelector(employeeSelector);
+  const { errors, validate } = useValidator(updateEmployeeSchema);
   const [item, setItem] = useState(employeePayload.viewEmployee ?? initialItem);
   const [openChangePwdModal, setOpenChangePwdModal] = useState(false);
 
@@ -54,7 +50,10 @@ const FormViewEmployee = () => {
   // event handlers ==============================================================
   const handleSubmit = async () => {
     console.log(item);
-    await dispatch(updateEmployee({ employee: item, id: item.id }));
+    const result = validate(item);
+    if (result) {
+      await dispatch(updateEmployee({ employee: item, id: item.id }));
+    }
   };
 
   const handleDateChange = (
@@ -103,6 +102,7 @@ const FormViewEmployee = () => {
                 };
               });
             }}
+            errorMessage={errors.firstName}
           />
           <label className="employeeFieldTitle">Last name: </label>
           <TextInput
@@ -117,6 +117,7 @@ const FormViewEmployee = () => {
                 };
               });
             }}
+            errorMessage={errors.lastName}
           />
         </div>
 
@@ -158,18 +159,23 @@ const FormViewEmployee = () => {
           </div>
           <div className="formViewEmployeeCalendar">
             <label className="employeeFieldTitle">Birth date: </label>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                views={["year", "month", "day"]}
-                className="custom-date-picker"
-                format="DD-MM-YYYY"
-                value={dayjs(item.birthDate)}
-                onChange={(
-                  value: any,
-                  context: PickerChangeHandlerContext<DateValidationError>
-                ) => handleDateChange(value, context)}
-              />
-            </LocalizationProvider>
+            <div className="formViewEmployeeCalendarInput">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  views={["year", "month", "day"]}
+                  className="custom-date-picker"
+                  format="DD-MM-YYYY"
+                  value={dayjs(item.birthDate)}
+                  onChange={(
+                    value: any,
+                    context: PickerChangeHandlerContext<DateValidationError>
+                  ) => handleDateChange(value, context)}
+                />
+              </LocalizationProvider>
+              {errors.birthDate && (
+                <span className="formViewEmployeeCalendarErrorMessage">{`*${errors.birthDate}`}</span>
+              )}
+            </div>
           </div>
         </div>
 
@@ -187,6 +193,7 @@ const FormViewEmployee = () => {
                 };
               });
             }}
+            errorMessage={errors.username}
           />
           <div className="formViewEmployeeChangePasswordWrap">
             <OutLineButton
