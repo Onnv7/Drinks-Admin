@@ -11,11 +11,13 @@ import { useAppDispatch } from "../../../services/redux/useTypedSelector";
 import { useSelector } from "react-redux";
 import { sidebarSelector } from "../../../services/redux/selecters/selector";
 import { selectItemBar } from "../../../services/redux/slices/sidebar.slice";
+import ModalYesNo from "../modalYesNo/ModalYesNo";
 
 const SideBar: React.FC = () => {
   const dispatch = useAppDispatch();
   const sidebarPayload = useSelector(sidebarSelector);
   const [selectedItem, setSelectedItem] = useState(sidebarPayload.itemName);
+  const [openLogoutModal, setOpenLogoutModal] = useState(false);
 
   const handleItemClick = (item: string) => {
     dispatch(selectItemBar(item));
@@ -32,6 +34,17 @@ const SideBar: React.FC = () => {
 
   return (
     <div className="sidebar">
+      {openLogoutModal && (
+        <ModalYesNo
+          width="500px"
+          height="200px"
+          title="Logout"
+          content="Do you want to logout?"
+          onNoClick={() => setOpenLogoutModal(false)}
+          onYesClick={() => handleLogout()}
+          onClose={() => setOpenLogoutModal(false)}
+        />
+      )}
       <div className="top">
         <span className="logo">Admin</span>
       </div>
@@ -114,7 +127,7 @@ const SideBar: React.FC = () => {
             </li>
           </Link>
           <li
-            onClick={() => handleLogout()}
+            onClick={() => setOpenLogoutModal(true)}
             className={`link ${
               selectedItem === "logout" ? "selectedItemSidebar" : ""
             }`}

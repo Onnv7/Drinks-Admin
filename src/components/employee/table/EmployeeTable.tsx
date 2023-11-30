@@ -128,7 +128,6 @@ const EmployeeTable: React.FC<Props> = (props) => {
   return (
     <div className="employeeTableContainer">
       {openDeleteModal && (
-        // eslint-disable-next-line react/jsx-no-undef
         <ModalYesNo
           width="500px"
           height="200px"
