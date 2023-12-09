@@ -25,7 +25,7 @@ const Employee: React.FC = () => {
   return (
     <div className="employeeContainer">
       <div className="employeeHeader">
-        <div className="employeeTitle">PRODUCT TABLE</div>
+        <div className="employeeTitle">EMPLOYEE TABLE</div>
         <div className="employeeAddButton">
           <Link to={RouteConstants.ADD_PRODUCT_PATH}>
             <OutLineButton

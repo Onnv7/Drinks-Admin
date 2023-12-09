@@ -11,7 +11,6 @@ import TextInput from "../../shared/textInput/TextInput";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import ElevatedButton from "../../shared/elevatedButton/ElevatedButton";
 import { changePasswordProfile } from "../../../services/redux/slices/profile.slice";
-import { storageManager } from "../../../helper/storager";
 
 type Props = {
   onClose: () => void;
@@ -58,7 +57,7 @@ const ChangePasswordModal: React.FC<Props> = (props) => {
         <div className="changePwdEmplModalCloseIcon" onClick={onClose}>
           <CloseRoundedIcon />
         </div>
-        <div className="changePwdEmplTitle">Chang password</div>
+        <div className="changePwdEmplTitle">Change password</div>
         <div className="changePwdEmplBody">
           <div className="changePwdEmplField">
             <label className="changePwdEmplLabel">New password</label>

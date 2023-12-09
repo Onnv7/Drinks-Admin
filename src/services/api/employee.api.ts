@@ -2,6 +2,7 @@ import {
   IChangePasswordReq,
   ICreateEmployeeReq,
   IUpdateEmployeeReq,
+  IUpdatePasswordReq,
 } from "../../interfaces/request/employee.request";
 import { axiosPrivate } from "./axios";
 
@@ -29,6 +30,13 @@ const EmployeeApi = {
   changePassword: async (id: string, body: IChangePasswordReq) => {
     const { data } = await axiosPrivate.patch(
       `/api/employee/password/${id}`,
+      body
+    );
+    return data;
+  },
+  updateMyPassword: async (id: string, body: IUpdatePasswordReq) => {
+    const { data } = await axiosPrivate.patch(
+      `/api/employee/change-password/{employeeId}`,
       body
     );
     return data;

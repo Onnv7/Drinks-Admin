@@ -22,3 +22,8 @@ export interface IUpdateEmployeeReq {
 export interface IChangePasswordReq {
   password: string;
 }
+
+export interface IUpdatePasswordReq {
+  oldPassword: string;
+  newPassword: string;
+}

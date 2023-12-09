@@ -12,16 +12,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import { Gender } from "../../../enums/Gender";
-import {
-  employeeSelector,
-  profileSelector,
-} from "../../../services/redux/selecters/selector";
-import { updateEmployee } from "../../../services/redux/slices/employee.slice";
+import { profileSelector } from "../../../services/redux/selecters/selector";
 import { updateEmployeeSchema } from "../../../validators/EmployeeValidateSchema";
 import useValidator from "../../../validators/useValidator";
-import ChangePasswordEmployeeModal from "../../employee/viewEmployee/changePassword/ChangePasswordEmployeeModal";
-import FormViewEmployee from "../../employee/viewEmployee/formViewEmployee/FormViewEmployee";
-import DropList from "../../shared/dropList/DropList";
 import ElevatedButton from "../../shared/elevatedButton/ElevatedButton";
 import OutLineButton from "../../shared/outlineButton/OutLineButton";
 import RadioInput from "../../shared/radioInput/RadioInput";
@@ -55,12 +48,8 @@ const FormViewProfile = () => {
 
   // event handlers ==============================================================
   const handleSubmit = async () => {
-    console.log(item);
     const result = validate(item);
-    console.log(
-      "🚀 ~ file: FormViewProfile.tsx:59 ~ handleSubmit ~ result:",
-      result
-    );
+
     if (result) {
       await dispatch(updateProfile({ profile: item }));
     }

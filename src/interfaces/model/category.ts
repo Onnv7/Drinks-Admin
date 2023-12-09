@@ -1,6 +1,6 @@
-import { ITopping } from "../topping";
 import { IImage } from "./image";
 import { ISize } from "./size";
+import { ITopping } from "./topping";
 
 export interface ICategory {
   id: string;
