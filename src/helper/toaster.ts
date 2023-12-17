@@ -24,6 +24,7 @@ export const toaster = {
       draggable: true,
       progress: undefined,
       theme: "light",
+      toastId: 'success'
     });
   },
   error: (props: ToastProp) => {
@@ -43,6 +44,7 @@ export const toaster = {
       draggable: true,
       progress: undefined,
       theme: "light",
+      toastId: "error"
     });
   },
 };
