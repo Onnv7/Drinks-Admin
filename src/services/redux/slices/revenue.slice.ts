@@ -94,6 +94,7 @@ const revenueSlice = createSlice({
   reducers: {
     clearStatusRevenue: (state) => {
       state.succeed = undefined;
+      state.notification = undefined;
     },
   },
   extraReducers: (builder) => {

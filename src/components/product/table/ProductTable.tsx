@@ -59,7 +59,7 @@ const ProductTable: React.FC<Props> = (props) => {
       align: "center",
       flex: 1,
       headerAlign: "center",
-      renderCell: (params) => {
+      renderCell: (params): ReactNode => {
         return (
           <>
             <img className="cellProductImage" src={params.value} alt="" />
@@ -149,6 +149,7 @@ const ProductTable: React.FC<Props> = (props) => {
       )}
       <DataGrid
         rowHeight={150}
+        autoHeight
         rows={product}
         columns={columns}
         initialState={{

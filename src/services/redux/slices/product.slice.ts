@@ -113,6 +113,7 @@ const productSlice = createSlice({
   reducers: {
     clearStatusProduct: (state) => {
       state.succeed = undefined;
+      state.notification = undefined;
     },
   },
   extraReducers: (builder) => {

@@ -88,6 +88,7 @@ const categorySlice = createSlice({
   reducers: {
     clearStatusCategory: (state) => {
       state.succeed = undefined;
+      state.notification = undefined;
     },
   },
   extraReducers(builder) {

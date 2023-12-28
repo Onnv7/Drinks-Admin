@@ -110,6 +110,7 @@ const employeeSlice = createSlice({
   reducers: {
     clearStatusEmployee: (state) => {
       state.succeed = undefined;
+      state.notification = undefined;
     },
   },
   extraReducers(builder) {

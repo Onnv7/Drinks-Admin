@@ -24,7 +24,7 @@ export const toaster = {
       draggable: true,
       progress: undefined,
       theme: "light",
-      toastId: 'success'
+      toastId: new Date().getTime().toString(),
     });
   },
   error: (props: ToastProp) => {
@@ -44,7 +44,7 @@ export const toaster = {
       draggable: true,
       progress: undefined,
       theme: "light",
-      toastId: "error"
+      toastId: new Date().getTime().toString(),
     });
   },
 };

@@ -40,7 +40,6 @@ export const changePasswordProfile = createAsyncThunk(
   async ({ body }: { body: IChangePasswordReq }, thunkAPI) => {
     try {
       const id = storageManager.getUserId()!.toString();
-      console.log("🚀 ~ =>>>>>>> id:", id);
       await EmployeeApi.changePassword(id!, body);
       return id;
     } catch (error: unknown) {
@@ -68,6 +67,7 @@ const profileSlice = createSlice({
   reducers: {
     clearStatusProfile: (state) => {
       state.succeed = undefined;
+      state.notification = undefined;
     },
   },
   extraReducers: (builder) => {

@@ -76,7 +76,6 @@ const Login: React.FC = () => {
 
   return (
     <div className="loginContainer">
-      <ToastContainer />
       <div className="cardForm">
         <div className="title">Sign in to Admin</div>
         <form>

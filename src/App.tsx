@@ -30,6 +30,7 @@ import { clearStatusEmployee } from "./services/redux/slices/employee.slice";
 import ChangePasswordEmployeeModal from "./components/employee/viewEmployee/changePassword/ChangePasswordEmployeeModal";
 import { clearStatusProfile } from "./services/redux/slices/profile.slice";
 import Profile from "./pages/profile/Profile";
+import { Action } from "@reduxjs/toolkit";
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -40,55 +41,62 @@ const App: React.FC = () => {
   const profilePayload = useSelector(profileSelector);
 
   useEffect(() => {
-    if (productPayload.notification) {
-      dispatch(clearStatusProduct());
-      const { type, message } = productPayload.notification;
-      if (type === NotificationConstant.SUCCESS) {
-        toaster.success({ text: message });
-      } else if (type === NotificationConstant.ERROR) {
-        toaster.error({ text: message });
+    const handle = () => {
+      if (productPayload.notification) {
+        const { type, message } = productPayload.notification;
+        console.log("=>>> product noti", productPayload);
+        if (type === NotificationConstant.SUCCESS) {
+          toaster.success({ text: message });
+        } else if (type === NotificationConstant.ERROR) {
+          toaster.error({ text: message });
+        }
+        dispatch(clearStatusProduct());
       }
-    }
-    if (categoryPayload.notification) {
-      const { type, message } = categoryPayload.notification;
-      if (type === NotificationConstant.SUCCESS) {
-        toaster.success({ text: message });
-      } else if (type === NotificationConstant.ERROR) {
-        toaster.error({ text: message });
+      if (categoryPayload.notification) {
+        console.log("=>>> categoryPayload noti", categoryPayload);
+        const { type, message } = categoryPayload.notification;
+        if (type === NotificationConstant.SUCCESS) {
+          toaster.success({ text: message });
+        } else if (type === NotificationConstant.ERROR) {
+          toaster.error({ text: message });
+        }
+        dispatch(clearStatusCategory());
       }
-      dispatch(clearStatusCategory());
-    }
-    if (employeePayload.notification) {
-      const { type, message } = employeePayload.notification;
-      if (type === NotificationConstant.SUCCESS) {
-        toaster.success({ text: message });
-      } else if (type === NotificationConstant.ERROR) {
-        toaster.error({ text: message });
+      if (employeePayload.notification) {
+        const { type, message } = employeePayload.notification;
+        if (type === NotificationConstant.SUCCESS) {
+          toaster.success({ text: message });
+        } else if (type === NotificationConstant.ERROR) {
+          toaster.error({ text: message });
+        }
+        dispatch(clearStatusEmployee());
       }
-      dispatch(clearStatusEmployee());
-    }
-    if (revenuePayload.notification) {
-      const { type, message } = revenuePayload.notification;
-      if (type === NotificationConstant.SUCCESS) {
-        toaster.success({ text: message });
-      } else if (type === NotificationConstant.ERROR) {
-        toaster.error({ text: message });
+      if (revenuePayload.notification) {
+        const { type, message } = revenuePayload.notification;
+        if (type === NotificationConstant.SUCCESS) {
+          toaster.success({ text: message });
+        } else if (type === NotificationConstant.ERROR) {
+          toaster.error({ text: message });
+        }
+        dispatch(clearStatusEmployee());
       }
-      dispatch(clearStatusEmployee());
-    }
-    if (profilePayload.notification) {
-      const { type, message } = profilePayload.notification;
-      if (type === NotificationConstant.SUCCESS) {
-        toaster.success({ text: message });
-      } else if (type === NotificationConstant.ERROR) {
-        toaster.error({ text: message });
+      if (profilePayload.notification) {
+        const { type, message } = profilePayload.notification;
+        if (type === NotificationConstant.SUCCESS) {
+          toaster.success({ text: message });
+        } else if (type === NotificationConstant.ERROR) {
+          toaster.error({ text: message });
+        }
+        dispatch(clearStatusProfile());
       }
-      dispatch(clearStatusProfile());
-    }
+    };
+    handle();
   }, [
+    categoryPayload,
     categoryPayload.notification,
     dispatch,
     employeePayload.notification,
+    productPayload,
     productPayload.notification,
     profilePayload.notification,
     revenuePayload.notification,
