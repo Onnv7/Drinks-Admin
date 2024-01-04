@@ -7,7 +7,7 @@ import { ITopping } from "../../../../interfaces/model/topping";
 import TextInput from "../../../shared/textInput/TextInput";
 import ElevatedButton from "../../../shared/elevatedButton/ElevatedButton";
 import { toppingSchema } from "../../../../validators/ProductValidateSchema";
-import useValidator from "../../../../validators/useValidator";
+import useValidator from "../../../../hooks/useValidator";
 
 type Props = {
   value?: ITopping[];
@@ -26,11 +26,6 @@ const AddTopping: React.FC<Props> = (props) => {
   const { errors, validate } = useValidator(toppingSchema);
   const onAddBtnClick = () => {
     const result = validate(toppingInfo!);
-    console.log(
-      "🚀 ~ file: AddTopping.tsx:26 ~ onAddBtnClick ~ result:",
-      result,
-      errors
-    );
 
     if (!result) {
       return;

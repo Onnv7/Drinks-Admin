@@ -13,6 +13,7 @@ import ViewProduct from "./pages/product/viewProduct/ViewProduct";
 import { useSelector } from "react-redux";
 import { clearStatusProduct } from "./services/redux/slices/product.slice";
 import {
+  authSelector,
   categorySelector,
   employeeSelector,
   productSelector,
@@ -31,6 +32,7 @@ import ChangePasswordEmployeeModal from "./components/employee/viewEmployee/chan
 import { clearStatusProfile } from "./services/redux/slices/profile.slice";
 import Profile from "./pages/profile/Profile";
 import { Action } from "@reduxjs/toolkit";
+import { resetState } from "./services/redux/slices/auth.slice";
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -39,12 +41,12 @@ const App: React.FC = () => {
   const employeePayload = useSelector(employeeSelector);
   const revenuePayload = useSelector(revenueSelector);
   const profilePayload = useSelector(profileSelector);
+  const authPayload = useSelector(authSelector);
 
   useEffect(() => {
     const handle = () => {
       if (productPayload.notification) {
         const { type, message } = productPayload.notification;
-        console.log("=>>> product noti", productPayload);
         if (type === NotificationConstant.SUCCESS) {
           toaster.success({ text: message });
         } else if (type === NotificationConstant.ERROR) {
@@ -53,7 +55,6 @@ const App: React.FC = () => {
         dispatch(clearStatusProduct());
       }
       if (categoryPayload.notification) {
-        console.log("=>>> categoryPayload noti", categoryPayload);
         const { type, message } = categoryPayload.notification;
         if (type === NotificationConstant.SUCCESS) {
           toaster.success({ text: message });
@@ -89,9 +90,19 @@ const App: React.FC = () => {
         }
         dispatch(clearStatusProfile());
       }
+      if (authPayload.notification) {
+        const { type, message } = authPayload.notification;
+        if (type === NotificationConstant.SUCCESS) {
+          toaster.success({ text: message });
+        } else if (type === NotificationConstant.ERROR) {
+          toaster.error({ text: message });
+        }
+        dispatch(resetState());
+      }
     };
     handle();
   }, [
+    authPayload.notification,
     categoryPayload,
     categoryPayload.notification,
     dispatch,
@@ -108,6 +119,7 @@ const App: React.FC = () => {
         categoryPayload.loading ||
         employeePayload.loading ||
         revenuePayload.loading ||
+        authPayload.loading ||
         profilePayload.loading) && <Loading />}
       <Routes>
         <Route path="/">

@@ -25,7 +25,13 @@
     > div {
       margin: 8px 0;
     }
-
+    .viewCategoryModalCode {
+      background-color: var(--brownDark);
+      color: white;
+      padding: 8px;
+      border-radius: 12px;
+      align-self: flex-start;
+    }
     .viewCategoryModalCloseIcon {
       height: 24px;
       color: red;
@@ -41,6 +47,7 @@
         border-radius: 50%;
       }
     }
+
     .viewCategoryModalName {
       width: 100%;
     }

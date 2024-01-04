@@ -15,7 +15,6 @@ export function useValidator<T>(validationSchema: ZodType<T>) {
       return true;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        console.log("🚀 ~ file: useValidator.ts:18 ~ validate ~ error:", error);
         const newErrors: ValidationResult<T> = {};
 
         error.errors.forEach((err) => {

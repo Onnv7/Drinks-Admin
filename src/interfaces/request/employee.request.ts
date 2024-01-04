@@ -10,6 +10,7 @@ export interface ICreateEmployeeReq {
 }
 export interface IUpdateEmployeeReq {
   id: string;
+  code: string;
   username: string;
   password: string;
   firstName: string;

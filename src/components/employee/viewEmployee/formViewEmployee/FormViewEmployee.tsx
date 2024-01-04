@@ -23,7 +23,7 @@ import OutLineButton from "../../../shared/outlineButton/OutLineButton";
 import DropList from "../../../shared/dropList/DropList";
 import ChangePasswordEmployeeModal from "../changePassword/ChangePasswordEmployeeModal";
 import { updateEmployeeSchema } from "../../../../validators/EmployeeValidateSchema";
-import useValidator from "../../../../validators/useValidator";
+import useValidator from "../../../../hooks/useValidator";
 
 const FormViewEmployee = () => {
   const initialItem = {
@@ -49,7 +49,6 @@ const FormViewEmployee = () => {
 
   // event handlers ==============================================================
   const handleSubmit = async () => {
-    console.log(item);
     const result = validate(item);
     if (result) {
       await dispatch(updateEmployee({ employee: item, id: item.id }));
@@ -60,7 +59,6 @@ const FormViewEmployee = () => {
     value: any,
     context: PickerChangeHandlerContext<DateValidationError>
   ) => {
-    console.log(value);
     if (value) {
       const data =
         value.$y +
@@ -145,7 +143,6 @@ const FormViewEmployee = () => {
                 checked={item.gender === Gender[Gender.MALE]}
                 name="gender"
                 onChange={(value) => {
-                  console.log("object", value);
                   setItem((prev) => {
                     return {
                       ...prev,

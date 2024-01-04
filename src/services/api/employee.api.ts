@@ -5,7 +5,6 @@ import {
   IUpdatePasswordReq,
 } from "../../interfaces/request/employee.request";
 import { axiosPrivate } from "./axios";
-
 const EmployeeApi = {
   getAllEmployees: async () => {
     const { data } = await axiosPrivate.get("/api/employee");

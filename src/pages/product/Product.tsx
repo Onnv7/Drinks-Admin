@@ -34,7 +34,7 @@ const Product: React.FC = () => {
       </div>
       <div className="productContent">
         <div className="productTable">
-          <ProductTable product={productPayload.table} />
+          <ProductTable productList={productPayload.table} />
         </div>
       </div>
     </div>

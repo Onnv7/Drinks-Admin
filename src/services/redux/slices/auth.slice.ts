@@ -5,16 +5,22 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { ILoginRes } from "../../../interfaces/response/auth.response";
 
 import { AxiosError } from "axios";
+import { stat } from "fs";
+import {
+  INotification,
+  NotificationConstant,
+} from "../../../interfaces/model/notification";
 
 export type LoginPayload = {
   loading: boolean;
-  loginRes: ILoginRes | null;
+  token: ILoginRes | null;
   error: string | null;
+  notification?: INotification;
 };
 
 const initialState = {
   loading: false,
-  loginRes: null,
+  token: null,
   error: null,
 } as LoginPayload;
 
@@ -22,7 +28,7 @@ export const login = createAsyncThunk(
   "/api/employee/login",
   async (body: ILoginReq, thunkAPI) => {
     try {
-      const { data: response } = await AuthApi.login(body);
+      const response = await AuthApi.login(body);
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
@@ -37,7 +43,12 @@ export const login = createAsyncThunk(
 const authSlice = createSlice({
   name: "login",
   initialState,
-  reducers: {},
+  reducers: {
+    resetState: (state) => {
+      state.notification = undefined;
+      state.token = null;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(login.pending, (state) => {
@@ -45,13 +56,22 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action: PayloadAction<ILoginRes>) => {
         state.loading = false;
-        state.loginRes = action.payload;
+        state.token = action.payload;
         state.error = null;
+        state.notification = {
+          message: "Login successful",
+          type: NotificationConstant.SUCCESS,
+        };
       })
       .addCase(login.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.error = action.payload;
+        state.notification = {
+          message: "Login failed",
+          type: NotificationConstant.ERROR,
+        };
       });
   },
 });
+export const { resetState } = authSlice.actions;
 export default authSlice.reducer;

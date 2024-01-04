@@ -1,4 +1,9 @@
 import axios from "axios";
+import AuthApi from "./auth.api";
+import { storageManager } from "../../helper/storager";
+import { cookier } from "../../helper/cookier";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const BASE_URL = "http://localhost:8080";
 export const axiosPublic = axios.create({
@@ -30,10 +35,21 @@ axiosPrivateForm.interceptors.response.use(
   (res) => {
     return res;
   },
-  (error) => {
+  async (error) => {
     const status = error.response ? error.response.status : 500;
-    if (status && status === 500) {
+    if (status === 401) {
       // localStorage.clear();
+      try {
+        const response = await AuthApi.refreshToken();
+        error.config.headers.Authorization = `Bearer ${response.data.accessToken}`;
+        storageManager.setToken(response.data.accessToken);
+        return axiosPrivate(error.config);
+      } catch (error) {
+        window.location.assign("/");
+        storageManager.clearStore();
+        Cookies.remove("refreshToken");
+        return Promise.reject(error);
+      }
     }
     return Promise.reject(error);
   }
@@ -47,7 +63,7 @@ const axiosPrivate = axios.create({
 
 axiosPrivate.interceptors.request.use(
   (req) => {
-    const token = window.localStorage.getItem("token");
+    const token = storageManager.getToken();
     if (token) {
       req.headers.Authorization = `Bearer ${token}`;
     }
@@ -63,10 +79,21 @@ axiosPrivate.interceptors.response.use(
   (res) => {
     return res;
   },
-  (error) => {
+  async (error) => {
     const status = error.response ? error.response.status : 500;
-    if (status && status === 500) {
+    if (status === 401) {
       // localStorage.clear();
+      try {
+        const response = await AuthApi.refreshToken();
+        error.config.headers.Authorization = `Bearer ${response.data.accessToken}`;
+        storageManager.setToken(response.data.accessToken);
+        return axiosPrivate(error.config);
+      } catch (error) {
+        window.location.assign("/");
+        storageManager.clearStore();
+        Cookies.remove("refreshToken");
+        return Promise.reject(error);
+      }
     }
     return Promise.reject(error);
   }

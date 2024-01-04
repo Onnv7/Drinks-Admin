@@ -9,7 +9,7 @@ import profileSlice from "./slices/profile.slice";
 
 const store = configureStore({
   reducer: {
-    login: authSlice,
+    auth: authSlice,
     category: categorySlice,
     product: productSlice,
     employee: employeeSlice,

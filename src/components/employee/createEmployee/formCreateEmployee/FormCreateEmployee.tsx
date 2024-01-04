@@ -18,7 +18,7 @@ import { useAppDispatch } from "../../../../services/redux/useTypedSelector";
 import { creteEmployee } from "../../../../services/redux/slices/employee.slice";
 import { useSelector } from "react-redux";
 import { employeeSelector } from "../../../../services/redux/selecters/selector";
-import useValidator from "../../../../validators/useValidator";
+import useValidator from "../../../../hooks/useValidator";
 import { createEmployeeSchema } from "../../../../validators/EmployeeValidateSchema";
 
 const FormCreateEmployee: React.FC = () => {
@@ -42,13 +42,7 @@ const FormCreateEmployee: React.FC = () => {
   }, [employeePayload.succeed]);
   // event handlers ==============================================================
   const handleSubmit = async () => {
-    // console.log(item);
-
     const result = validate(item);
-    console.log(
-      "🚀 ~ file: FormCreateEmployee.tsx:48 ~ handleSubmit ~ result:",
-      result
-    );
     if (result) {
       await dispatch(creteEmployee(item));
     }
@@ -58,7 +52,6 @@ const FormCreateEmployee: React.FC = () => {
     value: any,
     context: PickerChangeHandlerContext<DateValidationError>
   ) => {
-    console.log(value);
     if (value) {
       const data =
         value.$y +

@@ -19,15 +19,15 @@ type Props = {
 
 const CategoryTable: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
-  const { categoryList: category = [] } = props;
+  const { categoryList = [] } = props;
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [idSelected, setIdSelected] = useState<string | null>(null);
 
   const columns: GridColDef[] = [
     {
-      field: "id",
-      headerName: "ID",
+      field: "code",
+      headerName: "Code",
       width: 250,
       align: "center",
       headerAlign: "center",
@@ -133,7 +133,7 @@ const CategoryTable: React.FC<Props> = (props) => {
       {openViewModal && (
         <UpdateCategoryModal
           onClose={() => setOpenViewModal(false)}
-          category={category.filter((it) => it.id === idSelected)[0]}
+          category={categoryList.filter((it) => it.id === idSelected)[0]}
         />
       )}
       {/* {categoryPayload.loading && <Loading />} */}
@@ -152,7 +152,7 @@ const CategoryTable: React.FC<Props> = (props) => {
         className="categoryGrid"
         autoHeight
         rowHeight={150}
-        rows={category}
+        rows={categoryList}
         columns={columns}
         initialState={{
           pagination: {

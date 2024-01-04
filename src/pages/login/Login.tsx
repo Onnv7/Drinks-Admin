@@ -9,16 +9,14 @@ import { useSelector } from "react-redux";
 
 import { ILoginReq } from "../../interfaces/request/auth.request";
 import { useAppDispatch } from "../../services/redux/useTypedSelector";
-import { loginSelector } from "../../services/redux/selecters/selector";
+import { authSelector } from "../../services/redux/selecters/selector";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
-import { toaster } from "../../helper/toaster";
 
 import { storageManager } from "../../helper/storager";
-import useValidator from "../../validators/useValidator";
+import useValidator from "../../hooks/useValidator";
 import { loginSchema } from "../../validators/Auth";
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -27,18 +25,18 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-  const loginState = useSelector(loginSelector);
+  const loginState = useSelector(authSelector);
   const { errors, validate } = useValidator(loginSchema);
 
   useEffect(() => {
-    const { loginRes } = loginState;
+    const { token: loginRes } = loginState;
     // TH chặn login rồi => home
     if (storageManager.getToken()) {
       navigate("/");
     }
     // TH login thành công
-    else if (loginState.error === null && loginState.loginRes !== null) {
-      const data = loginState.loginRes;
+    else if (loginState.error === null && loginState.token !== null) {
+      const data = loginState.token;
       setAuth({
         userId: data.employeeId,
         accessToken: data.accessToken,
@@ -47,10 +45,7 @@ const Login: React.FC = () => {
         storageManager.setUserId(data.employeeId!);
         storageManager.setToken(data.accessToken!);
       }
-      toaster.success({ text: "Login successful" });
       navigate("/");
-    } else if (loginState.error !== null) {
-      toaster.error({ text: loginState.error! });
     }
   }, [auth, loginState, navigate, setAuth]);
 
@@ -62,12 +57,16 @@ const Login: React.FC = () => {
         username,
         password,
       });
+      console.log(
+        "🚀 ~ file: Login.tsx:60 ~ consthandleLogin:MouseEventHandler<HTMLDivElement>= ~ result:",
+        result
+      );
       if (result) {
         const data: ILoginReq = {
           username: username,
           password: password,
         };
-        dispatch(login(data));
+        await dispatch(login(data));
       }
     } catch (e) {
       console.log(e);

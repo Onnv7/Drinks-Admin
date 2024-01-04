@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { ISize } from "../../../../interfaces/model/size";
 import TextInput from "../../../shared/textInput/TextInput";
 import ElevatedButton from "../../../shared/elevatedButton/ElevatedButton";
-import useValidator from "../../../../validators/useValidator";
+import useValidator from "../../../../hooks/useValidator";
 import { sizeSchema } from "../../../../validators/ProductValidateSchema";
 
 type Props = {

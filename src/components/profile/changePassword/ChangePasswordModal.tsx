@@ -5,7 +5,7 @@ import { profileSelector } from "../../../services/redux/selecters/selector";
 
 import { useAppDispatch } from "../../../services/redux/useTypedSelector";
 import { changeEmployeePasswordSchema } from "../../../validators/EmployeeValidateSchema";
-import useValidator from "../../../validators/useValidator";
+import useValidator from "../../../hooks/useValidator";
 
 import TextInput from "../../shared/textInput/TextInput";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";

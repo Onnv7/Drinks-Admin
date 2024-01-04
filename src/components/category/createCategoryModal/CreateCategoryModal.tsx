@@ -9,7 +9,7 @@ import { createCategory } from "../../../services/redux/slices/category.slice";
 import { ICreateCategoryReq } from "../../../interfaces/request/category.request";
 import { useSelector } from "react-redux";
 import { categorySelector } from "../../../services/redux/selecters/selector";
-import useValidator from "../../../validators/useValidator";
+import useValidator from "../../../hooks/useValidator";
 import { createCategorySchema } from "../../../validators/CategoryValidateSchema";
 
 type Props = {

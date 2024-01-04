@@ -12,7 +12,7 @@ import { IUpdateCategoryReq } from "../../../interfaces/request/category.request
 import { updateCategory } from "../../../services/redux/slices/category.slice";
 import DropList from "../../shared/dropList/DropList";
 import { updateCategorySchema } from "../../../validators/CategoryValidateSchema";
-import useValidator from "../../../validators/useValidator";
+import useValidator from "../../../hooks/useValidator";
 
 type Props = {
   onClose: () => void;
@@ -41,6 +41,7 @@ const UpdateCategoryModal: React.FC<Props> = (props) => {
     <div className="viewCategoryModalContainer">
       {/* {categoryPayload.loading && <Loading />} */}
       <div className="viewCategoryModalCard">
+        <div className="viewCategoryModalCode">{category.code}</div>
         <div className="viewCategoryModalCloseIcon" onClick={onClose}>
           <CloseRoundedIcon />
         </div>

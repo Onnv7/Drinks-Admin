@@ -1,9 +1,17 @@
-import { ILoginReq } from "../../interfaces/request/auth.request";
-import { axiosPublic } from "./axios";
+import {
+  ILoginReq,
+  IRefreshTokenReq,
+} from "../../interfaces/request/auth.request";
+import { axiosPrivate, axiosPublic } from "./axios";
 
 const AuthApi = {
-  login: (body: ILoginReq) => {
-    return axiosPublic.post("/api/auth/employee/login", body);
+  login: async (body: ILoginReq) => {
+    const { data } = await axiosPublic.post("/api/auth/employee/login", body);
+    return data;
+  },
+  refreshToken: async () => {
+    const { data } = await axiosPublic.post("/api/auth/employee/refresh-token");
+    return data;
   },
 };
 

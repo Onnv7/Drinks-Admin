@@ -10,7 +10,6 @@ import {
   ITransactionStatistic,
 } from "../../../interfaces/response/revenue.response";
 import RevenueApi from "../../api/revenue.api";
-import { ac } from "../../../hooks/useRefreshToken";
 
 export type RevenuePayload = {
   loading: boolean;

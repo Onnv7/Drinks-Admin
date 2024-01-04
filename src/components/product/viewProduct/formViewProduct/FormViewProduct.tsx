@@ -22,7 +22,7 @@ import AddTopping from "../../createProduct/addTopping/AddTopping";
 import { useParams } from "react-router-dom";
 import ImageUrlInput from "../../../shared/imageUrlInput/ImageUrlInput";
 import { updateProductSchema } from "../../../../validators/ProductValidateSchema";
-import useValidator from "../../../../validators/useValidator";
+import useValidator from "../../../../hooks/useValidator";
 
 const FormViewProduct: React.FC = () => {
   const { id } = useParams();
@@ -51,6 +51,7 @@ const FormViewProduct: React.FC = () => {
     productPayload.updateProduct,
   ]);
   const initialItem = {
+    code: "",
     name: "",
     image: null,
     sizeList: [],

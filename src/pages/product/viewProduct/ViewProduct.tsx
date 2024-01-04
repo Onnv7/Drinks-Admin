@@ -6,10 +6,13 @@ import FormViewProduct from "../../../components/product/viewProduct/formViewPro
 import { useAppDispatch } from "../../../services/redux/useTypedSelector";
 import { getProductDetailsById } from "../../../services/redux/slices/product.slice";
 import { selectItemBar } from "../../../services/redux/slices/sidebar.slice";
+import { productSelector } from "../../../services/redux/selecters/selector";
+import { useSelector } from "react-redux";
 
 const ViewProduct: React.FC = () => {
   const dispatch = useAppDispatch();
 
+  const productPayload = useSelector(productSelector);
   const { id } = useParams();
 
   useEffect(() => {
@@ -22,7 +25,9 @@ const ViewProduct: React.FC = () => {
   }, [dispatch, id]);
   return (
     <div className="viewProductContainer">
-      <div className="viewProductTitle">Product: {id}</div>
+      <div className="viewProductTitle">
+        Product: {productPayload.productDetails?.code}
+      </div>
       <div className="viewProductFormContainer">
         <FormViewProduct />
       </div>

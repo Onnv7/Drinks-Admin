@@ -5,9 +5,12 @@ import { useAppDispatch } from "../../../services/redux/useTypedSelector";
 import FormViewEmployee from "../../../components/employee/viewEmployee/formViewEmployee/FormViewEmployee";
 import { getEmployeeById } from "../../../services/redux/slices/employee.slice";
 import { selectItemBar } from "../../../services/redux/slices/sidebar.slice";
+import { useSelector } from "react-redux";
+import { employeeSelector } from "../../../services/redux/selecters/selector";
 
 const ViewEmployee: React.FC = () => {
   const dispatch = useAppDispatch();
+  const employeePayload = useSelector(employeeSelector);
 
   const { id } = useParams();
 
@@ -22,7 +25,9 @@ const ViewEmployee: React.FC = () => {
 
   return (
     <div className="viewEmployeeContainer">
-      <div className="viewEmployeeTitle">Employee: {id}</div>
+      <div className="viewEmployeeTitle">
+        Employee: {employeePayload.viewEmployee?.code}
+      </div>
       <div className="viewEmployeeFormContainer">
         <FormViewEmployee />
       </div>

@@ -13,7 +13,7 @@ import { ZodType, z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { changeEmployeePasswordSchema } from "../../../../validators/EmployeeValidateSchema";
-import useValidator from "../../../../validators/useValidator";
+import useValidator from "../../../../hooks/useValidator";
 type Props = {
   onClose: () => void;
   onCloseWhenClickOutSite?: boolean;

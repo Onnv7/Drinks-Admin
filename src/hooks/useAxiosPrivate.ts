@@ -1,4 +1,4 @@
-// import {axiosPrivate} from "../services/api/axiosPublic";
+// import { axiosPrivate } from "../services/api/axios";
 // import useAuth from "./useAuth";
 // import useRefreshToken from "./useRefreshToken";
 // import { useEffect } from "react";
@@ -38,5 +38,4 @@
 //   return axiosPrivate;
 // };
 // export default useAxiosPrivate;
-
 export const a = "";

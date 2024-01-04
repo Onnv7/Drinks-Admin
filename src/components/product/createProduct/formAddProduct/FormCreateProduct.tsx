@@ -18,7 +18,7 @@ import ElevatedButton from "../../../shared/elevatedButton/ElevatedButton";
 import ImageInput from "../../../shared/imageInput/ImageInput";
 import TextArea from "../../../shared/textArea/TextArea";
 import TextInput from "../../../shared/textInput/TextInput";
-import useValidator from "../../../../validators/useValidator";
+import useValidator from "../../../../hooks/useValidator";
 import { createProductSchema } from "../../../../validators/ProductValidateSchema";
 
 const FormCreateProduct: React.FC = () => {

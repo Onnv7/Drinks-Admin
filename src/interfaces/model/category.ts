@@ -4,6 +4,7 @@ import { ITopping } from "./topping";
 
 export interface ICategory {
   id: string;
+  code: string;
   name: string;
   image: IImage;
   sizeList: ISize[];

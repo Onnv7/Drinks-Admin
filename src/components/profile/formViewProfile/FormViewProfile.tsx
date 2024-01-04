@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { Gender } from "../../../enums/Gender";
 import { profileSelector } from "../../../services/redux/selecters/selector";
 import { updateEmployeeSchema } from "../../../validators/EmployeeValidateSchema";
-import useValidator from "../../../validators/useValidator";
+import useValidator from "../../../hooks/useValidator";
 import ElevatedButton from "../../shared/elevatedButton/ElevatedButton";
 import OutLineButton from "../../shared/outlineButton/OutLineButton";
 import RadioInput from "../../shared/radioInput/RadioInput";
@@ -59,7 +59,6 @@ const FormViewProfile = () => {
     value: any,
     context: PickerChangeHandlerContext<DateValidationError>
   ) => {
-    console.log(value);
     if (value) {
       const data =
         value.$y +
@@ -142,7 +141,6 @@ const FormViewProfile = () => {
                 checked={item.gender === Gender[Gender.MALE]}
                 name="gender"
                 onChange={(value) => {
-                  console.log("object", value);
                   setItem((prev) => {
                     return {
                       ...prev,

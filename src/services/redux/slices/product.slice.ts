@@ -31,7 +31,6 @@ const initialState = {
   loading: false,
   products: [],
   table: [],
-
   updateProduct: {} as IUpdateProductReq,
 } as ProductPayload;
 

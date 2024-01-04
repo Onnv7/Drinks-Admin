@@ -14,19 +14,19 @@ import { IEmployee } from "../../../interfaces/model/employee";
 import { deleteEmployee } from "../../../services/redux/slices/employee.slice";
 
 type Props = {
-  employee?: IEmployee[];
+  employeeList?: IEmployee[];
 };
 
 const EmployeeTable: React.FC<Props> = (props) => {
-  const { employee = [] } = props;
+  const { employeeList = [] } = props;
   const dispatch = useAppDispatch();
   const [idSelected, setIdSelected] = useState<string | null>(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const columns: GridColDef[] = [
     {
-      field: "id",
-      headerName: "ID",
+      field: "code",
+      headerName: "Code",
       width: 250,
       align: "center",
       headerAlign: "center",
@@ -139,8 +139,9 @@ const EmployeeTable: React.FC<Props> = (props) => {
         />
       )}
       <DataGrid
+        autoHeight
         rowHeight={150}
-        rows={employee}
+        rows={employeeList}
         columns={columns}
         initialState={{
           pagination: {

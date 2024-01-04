@@ -13,19 +13,19 @@ import { deleteProduct } from "../../../services/redux/slices/product.slice";
 import { ColorConstants } from "../../../constants/ColorConstant";
 
 type Props = {
-  product?: IGetAllProductsReq[];
+  productList?: IGetAllProductsReq[];
 };
 
 const ProductTable: React.FC<Props> = (props) => {
+  const { productList = [] } = props;
   const dispatch = useAppDispatch();
   const [idSelected, setIdSelected] = useState<string | null>(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const { product = [] } = props;
 
   const columns: GridColDef[] = [
     {
-      field: "id",
-      headerName: "ID",
+      field: "code",
+      headerName: "Code",
       width: 250,
       align: "center",
       headerAlign: "center",
@@ -59,7 +59,7 @@ const ProductTable: React.FC<Props> = (props) => {
       align: "center",
       flex: 1,
       headerAlign: "center",
-      renderCell: (params): ReactNode => {
+      renderCell: (params) => {
         return (
           <>
             <img className="cellProductImage" src={params.value} alt="" />
@@ -149,8 +149,7 @@ const ProductTable: React.FC<Props> = (props) => {
       )}
       <DataGrid
         rowHeight={150}
-        autoHeight
-        rows={product}
+        rows={productList}
         columns={columns}
         initialState={{
           pagination: {

@@ -37,7 +37,7 @@ const Employee: React.FC = () => {
       </div>
       <div className="employeeContent">
         <div className="employeeTable">
-          <EmployeeTable employee={employeePayload.employees} />
+          <EmployeeTable employeeList={employeePayload.employees} />
         </div>
       </div>
     </div>

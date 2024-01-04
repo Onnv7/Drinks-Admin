@@ -4,6 +4,7 @@ import { ITopping } from "../model/topping";
 
 export interface IGetProductDetailsByIdRes {
   id: string;
+  code: string;
   name: string;
   description: string;
   image: IImage;

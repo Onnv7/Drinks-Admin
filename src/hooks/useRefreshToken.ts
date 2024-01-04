@@ -1,4 +1,5 @@
-// import { axiosPublic } from "../services/api/axiosPublic";
+// import AuthApi from "../services/api/auth.api";
+// import { axiosPublic } from "../services/api/axios";
 // import useAuth from "./useAuth";
 
 // const useRefreshToken = () => {
@@ -17,4 +18,4 @@
 
 // export default useRefreshToken;
 
-export const ac = "";
+export const as = "";
